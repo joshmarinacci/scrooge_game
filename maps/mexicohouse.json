@@ -1,0 +1,1109 @@
+{
+    "id": "mexicohouse",
+    "path": "mexicohouse.json",
+    "name": "Mexican House",
+    "battle": false,
+    "background": "#000000",
+    "actions": [
+        {
+            "id": "dialog_0.13516793131394444",
+            "title": "Dialog 0.7146328013337138",
+            "itemid": "scrooge",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "scrooge",
+                    "text": "Where are we now?",
+                    "key": "key_0.1361433784737749"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Hmm. It's warm and dry and I see jalapenos everywhere. I'm guessing we are in Mexico.",
+                    "key": "key_0.8816059266093537"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "That does look like Rob Rachet. Let's see what they are saying.",
+                    "key": "key_0.8045196130502161"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.17671033611928477",
+            "title": "Dialog 0.5142379255739289",
+            "itemid": "ratchet",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "I am truly sorry my dear that we had to move to Mexico, but after Scrooge shut down the plant it's the only place we could find jobs.",
+                    "key": "key_0.3835636293749636"
+                },
+                {
+                    "person": "item",
+                    "text": "I wish we didn't have to sneak in illegally.",
+                    "key": "key_0.7769590733302632"
+                },
+                {
+                    "person": "item",
+                    "text": "I feel bad taking jobs of hard working Mexicans.",
+                    "key": "key_0.6959506029928395"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "Oh. So *this* is where Rachet's been. I wondered why he hadn't come to work lately. I forgot I fired everyone.",
+                    "key": "key_0.6881729493504556"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "You are both miserly and forgetful. Not a great combination.",
+                    "key": "key_0.28983349615022513"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "Then remind me to have you tar and feathered later.",
+                    "key": "key_0.9261976275822039"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "In my current state that wouldn't change much.",
+                    "key": "key_0.7175743461042998"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.6788817829334164",
+            "title": "Dialog 0.5511545744241806",
+            "itemid": "martha",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "Why did the chicken cross the road?",
+                    "key": "key_0.26151606196428934"
+                },
+                {
+                    "person": "item",
+                    "text": "To get away from Scrooge. Ha ha ha!",
+                    "key": "key_0.42127596899193454"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.1990300525215749",
+            "title": "Dialog 0.987565908918087",
+            "itemid": "tim",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "Hey Mom. Pass the beans and corn. I love this stuff.",
+                    "key": "key_0.08083460143918897"
+                },
+                {
+                    "person": "item",
+                    "text": "And my bones already feel better since we left the north.",
+                    "key": "key_0.9113971369858971"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "This is Tiny Tim, but he looks positively huge and healthy.",
+                    "key": "key_0.7417697925462232"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "True. He doesn’t seem sick at all.",
+                    "key": "key_0.9114336875901987"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "See, my surly efforts actually helped the Ratchet family. Why should I change?",
+                    "key": "key_0.608061633522909"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "I get your point. Let’s check the book.",
+                    "key": "key_0.2186513139790105"
+                },
+                {
+                    "person": "book",
+                    "text": "If the client continues to be frozen hearted try serving him a warm drink. ",
+                    "key": "key_0.7036987363642446"
+                },
+                {
+                    "person": "book",
+                    "text": "Jalepenos are best.",
+                    "key": "key_0.7117656712232052"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Let's see what we can find around here.",
+                    "key": "key_0.16690829630477833"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.9063246981357373",
+            "title": "Dialog 0.288058859848908",
+            "itemid": "Jalapeno",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "Jalapeno tequila found!",
+                    "key": "key_0.6332750622818075"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Here, drink this. It should warm your heart with Christmas joy.",
+                    "key": "key_0.4156657392180969"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "<glurg>",
+                    "key": "key_0.9480007318679597"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "Gah!! My throat! I can't breathe.",
+                    "key": "key_0.3604728913869266"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "It's too hot! It's burning!",
+                    "key": "key_0.9395924170332273"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Does your heart feel warmer?",
+                    "key": "key_0.04030066076535643"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "Your face will when I'm done with you.",
+                    "key": "key_0.7969715779168833"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Well, I'm all out of ideas. *sigh*  Let's go.",
+                    "key": "key_0.43635638946785593"
+                }
+            ],
+            "visible": true,
+            "next": "script_0.7477458125761216"
+        },
+        {
+            "id": "goto_0.17370456214378271",
+            "itemid": "window",
+            "title": "Go To 0.7033450824456047",
+            "type": "gotoroom",
+            "gotoroom": {
+                "map": "bedroom",
+                "item": "scrooge2",
+                "dx": 0,
+                "dy": 2
+            },
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "script_0.9549018015540902",
+            "itemid": "empty",
+            "title": "Script 0.30454215383683336",
+            "type": "script",
+            "script": {
+                "trigger": "mapstart",
+                "code": "ctx.setState({end:true});"
+            },
+            "visible": true,
+            "next": null
+        },
+        {
+            "id": "script_0.7477458125761216",
+            "itemid": "empty",
+            "title": "unlock window",
+            "type": "script",
+            "script": {
+                "trigger": "none",
+                "code": "ctx.item('window').unlock();"
+            },
+            "visible": true,
+            "next": null
+        }
+    ],
+    "width": 10,
+    "height": 10,
+    "layers": [
+        {
+            "id": "floor",
+            "type": "drawn",
+            "data": [
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_4"
+                    }
+                }
+            ],
+            "visible": true,
+            "width": 10,
+            "height": 10
+        },
+        {
+            "id": "furniture",
+            "type": "drawn",
+            "data": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "1_5"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "6_1"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "1_6"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "6_1"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "6_1"
+                    }
+                },
+                null
+            ],
+            "visible": true,
+            "width": 10,
+            "height": 10
+        },
+        {
+            "id": "items",
+            "type": "item",
+            "data": [
+                {
+                    "master": {
+                        "group": "misc",
+                        "id": "item_master_349"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "scrooge"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Scrooge"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 2,
+                    "y": 7
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_189"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "ratchet"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Ratchet"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 6,
+                    "y": 6
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_360"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "martha"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Martha"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 8,
+                    "y": 6
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_315"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "tim"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Tiny Tim"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 4,
+                    "y": 4
+                },
+                {
+                    "master": {
+                        "group": "misc",
+                        "id": "item_master_654"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "window"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Window"
+                        },
+                        "lockable": {
+                            "name": "lockable",
+                            "value": true
+                        },
+                        "locked": {
+                            "name": "locked",
+                            "value": true
+                        }
+                    },
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "master": {
+                        "group": "item_group_1699",
+                        "id": "item_master_373"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "Jalapeno"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Jalapeno"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 7,
+                    "y": 2
+                }
+            ],
+            "visible": true,
+            "width": 10,
+            "height": 10
+        }
+    ],
+    "start": {
+        "x": 7,
+        "y": 8
+    },
+    "keys": [],
+    "music": "/audio/shrine.mp3"
+}

@@ -1,0 +1,1918 @@
+{
+    "id": "fredhouse",
+    "path": "fredhouse.json",
+    "name": "Fred's House",
+    "battle": false,
+    "background": "#000000",
+    "actions": [
+        {
+            "id": "goto_0.9098065402287996",
+            "itemid": "stairs",
+            "title": "Go To 0.5150683945618335",
+            "type": "gotoroom",
+            "gotoroom": {
+                "map": "fredhouse2",
+                "item": "scrooge",
+                "dx": 0,
+                "dy": 2
+            },
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.23637991148703796",
+            "title": "Dialog 0.1902371084079697",
+            "itemid": "scrooge",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "scrooge",
+                    "text": "Where are we, this doesn't look like Fred's house?",
+                    "key": "key_0.37460329630534495"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "I'm not sure. I just let the Christmas magic fly us.",
+                    "key": "key_0.15549076500124848"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "Say, that does look like Fred and his wife Clara.",
+                    "key": "key_0.49538854337018856"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "Hmm. Humid weather, bamboo and pineapples everywhere. I think we're in Hawaii. Perhaps they took a vacation.",
+                    "key": "key_0.6759446615201876"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "They had Christmas in Hawaii without me?! ",
+                    "key": "key_0.359460730484892"
+                },
+                {
+                    "person": "scrooge",
+                    "text": "I'm glad I cut them out of my will.",
+                    "key": "key_0.8464806566767875"
+                },
+                {
+                    "person": "pheasant",
+                    "text": "I don't think they can see us. Let’s go listen to what they are saying.",
+                    "key": "key_0.3453482181998153"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.3213095427275905",
+            "title": "Dialog 0.26917556775903084",
+            "itemid": "fred",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "fred",
+                    "text": "Ha ha hah. And then my Uncle Scrooge said Christmas was a humbug. ",
+                    "key": "key_0.669499932057324"
+                },
+                {
+                    "person": "fred",
+                    "text": "Oh, dear me. And he was beside himself with all the talk of figgy pudding. Ha hah hah.",
+                    "key": "key_0.5236441629374475"
+                },
+                {
+                    "person": "clara",
+                    "text": "Oh dear, and then what did he do?",
+                    "key": "key_0.3377999643548555"
+                },
+                {
+                    "person": "fred",
+                    "text": "Slammed the door in my face. Poor old coot! He'd prefer to spend Christmas alone than a sunny trip to Hawaii. I pity him, I do.",
+                    "key": "key_0.49987264602536796"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.7658704031086725",
+            "title": "Dialog 0.5653880280034467",
+            "itemid": "clara",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "clara",
+                    "text": "Oh Fred. I bet if you told Scrooge about the trip he would have come.",
+                    "key": "key_0.6519328511724094"
+                },
+                {
+                    "person": "fred",
+                    "text": "It's a good thing he didn't. Such a Debbie Downer, he is. ",
+                    "key": "key_0.8325629535895573"
+                },
+                {
+                    "person": "clara",
+                    "text": "Well, let's toast to Scrooge, the crustiest old geezer of them all.",
+                    "key": "key_0.21380339858883346"
+                },
+                {
+                    "person": "fred",
+                    "text": "To Scrooge!",
+                    "key": "key_0.33967065411959285"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.012382908345039745",
+            "title": "Dialog 0.04243190496967553",
+            "itemid": "friend1",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "Hmm. something smells like chicken. Do you smell it?",
+                    "key": "key_0.6200421275035191"
+                },
+                {
+                    "person": "fred-friend2",
+                    "text": "I agree. It’s quite un-pheasant. ha ha ha!",
+                    "key": "key_0.7721589885635745"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.49537832702735285",
+            "title": "Dialog 0.9945466201854807",
+            "itemid": "friend2",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "item",
+                    "text": "I'm thinking of an animal. It goes oink oink oink. What is it?",
+                    "key": "key_0.5702614728243687"
+                },
+                {
+                    "person": "fred-friend1",
+                    "text": "Scrooge when he wallows in his money. Ha ha ha!",
+                    "key": "key_0.4535393854396712"
+                },
+                {
+                    "person": "item",
+                    "text": "Oh how droll!",
+                    "key": "key_0.4535707879385231"
+                }
+            ],
+            "visible": false,
+            "next": null
+        },
+        {
+            "id": "dialog_0.4582777794510129",
+            "title": "Dialog 0.09384504490849443",
+            "itemid": "newitem_903",
+            "type": "dialog",
+            "dialog": [
+                {
+                    "person": "narrator",
+                    "text": "There's no time for coffee right now. Get back to some heart melting action.",
+                    "key": "key_0.6962320258434691"
+                }
+            ],
+            "visible": true,
+            "next": null
+        }
+    ],
+    "width": 20,
+    "height": 10,
+    "layers": [
+        {
+            "id": "floor",
+            "type": "drawn",
+            "data": [
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_3"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_4"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_5"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_4"
+                    }
+                }
+            ],
+            "visible": true,
+            "width": 20,
+            "height": 10
+        },
+        {
+            "id": "furniture",
+            "type": "drawn",
+            "data": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_2"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_2"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "4_0"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_0"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_6"
+                    }
+                },
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "interior",
+                        "id": "6_1"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_0"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_6"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_6"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_6"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_6"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_7"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_7"
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "0_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "1_8"
+                    }
+                },
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "2_8"
+                    }
+                }
+            ],
+            "visible": true,
+            "width": 20,
+            "height": 10
+        },
+        {
+            "id": "random",
+            "type": "drawn",
+            "data": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                    "master": {
+                        "group": "island",
+                        "id": "5_0"
+                    }
+                }
+            ],
+            "visible": true,
+            "width": 20,
+            "height": 10
+        },
+        {
+            "id": "items",
+            "type": "item",
+            "data": [
+                {
+                    "master": {
+                        "group": "misc",
+                        "id": "item_master_747"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "stairs"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Stairs"
+                        }
+                    },
+                    "x": 18,
+                    "y": 3
+                },
+                {
+                    "master": {
+                        "group": "misc",
+                        "id": "item_master_349"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "scrooge"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Scrooge"
+                        }
+                    },
+                    "x": 2,
+                    "y": 7
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_360"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "clara"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Clara"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 8,
+                    "y": 2
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_315"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "fred"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Fred"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 10,
+                    "y": 2
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_751"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "friend1"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Friend"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 9,
+                    "y": 7
+                },
+                {
+                    "master": {
+                        "group": "item_group_9367",
+                        "id": "item_master_168"
+                    },
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "friend2"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "Friend"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 10,
+                    "y": 7
+                },
+                {
+                    "settings": {
+                        "id": {
+                            "name": "id",
+                            "value": "newitem_903"
+                        },
+                        "title": {
+                            "name": "title",
+                            "value": "coffee"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
+                        }
+                    },
+                    "x": 12,
+                    "y": 3,
+                    "transparent": true
+                }
+            ],
+            "visible": true,
+            "width": 20,
+            "height": 10
+        }
+    ],
+    "start": {
+        "x": 2,
+        "y": 8
+    },
+    "keys": [],
+    "music": "/audio/pyramid.mp3"
+}
