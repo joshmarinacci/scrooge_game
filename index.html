@@ -14,29 +14,6 @@
 </head>
 
 <body>
-    <!--
-
-- init a canvas
-- find the first room from settings
-- find the tiles for the first room
-- draw the player
-when move
-    lookup tiles under player position
-    if collide, don't allow the movement
-    else update the scroll
-
-    if colliding with an item emit an item event
-    if colliding with a tile emit a collision event
-
-    look up actions for that item using item.settings.id
-
-check actions
-    if dialog action, kick off a dialog process and pause the input to the render loop
-    if it's a script event, eval script
-    add next action if any to the event queue
--->
-    <script src="../ga/ga.js"></script>
-    <script src="../ga/plugins.js"></script>
     <script type="module">
         import { Keyboard } from "./js/keyboard.js"
         import { Room } from "./js/room.js"
@@ -45,14 +22,11 @@ check actions
         import { AssetManager} from "./js/assets.js"
         import { Surface, DebugOverlay} from "./js/drawing.js"
         import { ActionManager } from "./js/actions.js"
+        import {GameState} from "./js/game.js"
 
         let DATA = null
         const log = (...args) => console.log(...args)
-        let STATE = {
-            scroll: make_point(0,0),
-            events:[],
-            test_tile : new Point(0,0)
-        }
+        let STATE = new GameState()
         let layers = []
         let room_layer = []
         let assets
@@ -69,23 +43,21 @@ check actions
             return true
         }
         function attempt_move(player,offset) {
-            STATE.test_tile = clone_point(player.center).add(offset)
+            STATE.test_tile = player.center.add(offset)
             let infos = STATE.ROOM.tile_info_at_pixel(surface, STATE.test_tile)
             for (let info of infos) {
                 if (info.type === 'tile' && info.blocking) return
                 if (info.type === 'item') {
                     if(is_item_visible(info)) {
                         log("blocked by an item",info)
-                        STATE.events.push({type:'use-item',info:info, room:STATE.ROOM})
+                        STATE.dispatch_event({type:'use-item',info:info, room:STATE.ROOM})
                         return
                     }
                 }
             }
-            player.offset.y += offset.y
-            player.offset.x += offset.x
+            player.offset_by(offset)
             player.normalize()
-            STATE.scroll.y -= offset.y
-            STATE.scroll.x -= offset.x
+            STATE.move_scroll(offset)
         }
         function check_input() {
             let player = STATE.PLAYER

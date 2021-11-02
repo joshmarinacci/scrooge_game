@@ -1,16 +1,16 @@
+import {Point} from "./util.js";
+
 export class Player {
+    info:any
+    center:Point
+    private offset:Point
     constructor(info) {
         this.info = info
-        // log("player info is", this.info)
-        // log("player image is", IMAGES[this.info.image])
-        this.center = {
-            x: 4,
-            y: 7,
-        }
-        this.offset = {
-            x: 0,
-            y: 0,
-        }
+        this.center = new Point(4,7)
+        this.offset = new Point(0,0)
+    }
+    offset_by(offset:Point) {
+        this.offset = this.offset.add(offset)
     }
     normalize() {
         if (this.offset.x <= -16) {

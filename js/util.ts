@@ -1,4 +1,6 @@
 export class Point {
+    x:number
+    y:number
     constructor(x,y) {
         if(typeof x == 'number') {
             this.x = x
@@ -10,6 +12,10 @@ export class Point {
     }
     add(pt) {
         return new Point(this.x + pt.x, this.y + pt.y)
+    }
+
+    subtract(pt: Point) {
+        return new Point(this.x - pt.x, this.y - pt.y)
     }
 }
 
