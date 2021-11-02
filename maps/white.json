@@ -749,6 +749,10 @@
                         "title": {
                             "name": "title",
                             "value": "Voice"
+                        },
+                        "visible": {
+                            "name": "visible",
+                            "value": true
                         }
                     },
                     "x": 4,

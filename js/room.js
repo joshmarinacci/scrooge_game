@@ -82,6 +82,11 @@ export class Room {
         if (layer.visible == false) return
         if (layer.type === 'item') {
             layer.data.forEach((info, n) => {
+                if(info.settings.visible) {
+                    if(info.settings.visible.value === false) {
+                        return
+                    }
+                }
                 let x = info.x
                 let y = info.y
                 let item_def = this.lookup_master_item(surf,info)
@@ -105,6 +110,24 @@ export class Room {
                     )
                 }
             })
+        }
+    }
+    lookup_action_for_item(itemid) {
+        return this.data.actions.find(act => act.itemid == itemid)
+    }
+    lookup_action(actionid) {
+        return this.data.actions.find(act => act.id === actionid)
+    }
+    lookup_item(itemid) {
+        for(let layer of this.data.layers) {
+            if(layer.type === 'item') {
+                for(let info of layer.data) {
+                    console.log("item in layer is",info)
+                    if(info.settings.id.value === itemid) {
+                        return info
+                    }
+                }
+            }
         }
     }
 }

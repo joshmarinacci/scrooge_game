@@ -101,8 +101,38 @@ check actions
                 if(evt.type === 'use-item') {
                     log("doing action", evt.info)
                     log("room is",evt.room)
-                    let action = evt.room.data.actions.find(act => act.itemid == evt.info.settings.id.value)
+                    let action = evt.room.lookup_action_for_item(evt.info.settings.id.value)
                     log("actions are",action)
+                    if(action.type === 'dialog') {
+                        keyboard.stop()
+                        log("doing the dialog", action.dialog)
+                        if(action.next) {
+                            setTimeout(()=>{
+                                STATE.events.push({type:'next-action',actionid:action.next, room:evt.room})
+                            },0)
+                        }
+                    }
+                }
+                if(evt.type === 'next-action') {
+                    let action =evt.room.lookup_action(evt.actionid)
+                    log("performing action",action)
+                    if(action.type === 'script') {
+                        let ctx = {
+                            item:function(id) {
+                                console.log("looking up item",id)
+                                let item = evt.room.lookup_item(id)
+                                console.log("the item is",item)
+                                let item_wrapper = {
+                                    hide() {
+                                        log("hiding",item)
+                                        item.settings.visible.value = false
+                                    }
+                                }
+                                return item_wrapper
+                            }
+                        }
+                        ctx.item('voice').hide()
+                    }
                 }
             })
             STATE.events = []

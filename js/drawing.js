@@ -29,7 +29,7 @@ export class Surface {
     }
     draw_tile(position, offset, tile_center, imageid) {
         //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
-        let image = this.assets.IMAGES[imageid]
+        let image = this.assets.lookup_image(imageid)
         let sx = tile_center.x * this.tile_width
         let sy = tile_center.y * this.tile_height
         let sw = this.tile_width
