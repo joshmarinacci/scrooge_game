@@ -48,15 +48,12 @@ check actions
         let DATA = null
         const log = (...args) => console.log(...args)
         let STATE = {
-            roomid: "",
-            scroll: {
-                x: 0,
-                y: -16 * 3,
-            },
+            scroll: make_point(0,0),
             events:[],
             test_tile : new Point(0,0)
         }
         let layers = []
+        let room_layer = []
         let assets
         let surface = null
         let keyboard = null
@@ -65,23 +62,30 @@ check actions
             log("player goes to room", player, room.data.start)
             player.x = room.data.start.x
             player.y = room.data.start.y
+            recenter_room_around_player()
         }
 
 
         function print(...args) {
             log(...args)
         }
+        function is_item_visible(info) {
+            if(info.settings.visible) return info.settings.visible.value
+            return true
+        }
         function attempt_move(player,offset) {
             STATE.test_tile = clone_point(player.center).add(offset)
             let infos = STATE.ROOM.tile_info_at_pixel(surface, STATE.test_tile)
             for (let info of infos) {
-                    if (info.type === 'tile' && info.blocking) return
-                    if (info.type === 'item') {
-                        log("blocked by an item")
+                if (info.type === 'tile' && info.blocking) return
+                if (info.type === 'item') {
+                    if(is_item_visible(info)) {
+                        log("blocked by an item",info)
                         STATE.events.push({type:'use-item',info:info, room:STATE.ROOM})
                         return
                     }
                 }
+            }
             player.offset.y += offset.y
             player.offset.x += offset.x
             player.normalize()
@@ -95,44 +99,69 @@ check actions
             if (keyboard.is_pressed('ArrowLeft'))  attempt_move(player, make_point(-1,0))
             if (keyboard.is_pressed('ArrowRight')) attempt_move(player,make_point(+1,0))
         }
+
+        function recenter_room_around_player() {
+            console.log("player is at",STATE.PLAYER.center)
+            console.log("screne is", surface.viewport.width_in_tiles)
+            STATE.scroll.x = (STATE.PLAYER.center.x - surface.viewport.width_in_tiles/2) * (-16)
+            STATE.scroll.y = (STATE.PLAYER.center.y - surface.viewport.height_in_tiles/2) * (-16)
+        }
+        function perform_action(action,room) {
+            log("performing action",action)
+            if(action.type === 'dialog') {
+                keyboard.stop()
+                log("doing the dialog", action.dialog)
+                if(action.next) {
+                    setTimeout(()=>{
+                        STATE.events.push({type:'next-action',actionid:action.next, room:room})
+                    },0)
+                }
+            }
+            if(action.type === 'script') {
+                log('doing script action')
+                let ctx = {
+                    item:function(id) {
+                        console.log("looking up item",id)
+                        let item = room.lookup_item(id)
+                        console.log("the item is",item)
+                        let item_wrapper = {
+                            hide() {
+                                log("hiding",item)
+                                item.settings.visible.value = false
+                            }
+                        }
+                        return item_wrapper
+                    }
+                }
+                ctx.item('voice').hide()
+                keyboard.start()
+            }
+            if(action.type === 'gotoroom') {
+                log("going to a new room",action.gotoroom)
+                keyboard.stop()
+                let n = room_layer.indexOf(STATE.ROOM)
+                room_layer.splice(n,1)
+                log("now room layers are",room_layer.length)
+                assets.load_room('pearlygates').then((room)=>{
+                    console.log("room loaded",room)
+                    STATE.ROOM = room
+                    room_layer.push(STATE.ROOM)
+                    STATE.PLAYER.center = make_point(action.gotoroom.dx, action.gotoroom.dy)
+                    recenter_room_around_player()
+                    keyboard.start()
+                })
+            }
+        }
         function check_events() {
-            STATE.events.forEach(evt => {
+            STATE.events.slice().forEach(evt => {
                 log("event happened",evt)
                 if(evt.type === 'use-item') {
-                    log("doing action", evt.info)
-                    log("room is",evt.room)
                     let action = evt.room.lookup_action_for_item(evt.info.settings.id.value)
-                    log("actions are",action)
-                    if(action.type === 'dialog') {
-                        keyboard.stop()
-                        log("doing the dialog", action.dialog)
-                        if(action.next) {
-                            setTimeout(()=>{
-                                STATE.events.push({type:'next-action',actionid:action.next, room:evt.room})
-                            },0)
-                        }
-                    }
+                    perform_action(action,evt.room)
                 }
                 if(evt.type === 'next-action') {
                     let action =evt.room.lookup_action(evt.actionid)
-                    log("performing action",action)
-                    if(action.type === 'script') {
-                        let ctx = {
-                            item:function(id) {
-                                console.log("looking up item",id)
-                                let item = evt.room.lookup_item(id)
-                                console.log("the item is",item)
-                                let item_wrapper = {
-                                    hide() {
-                                        log("hiding",item)
-                                        item.settings.visible.value = false
-                                    }
-                                }
-                                return item_wrapper
-                            }
-                        }
-                        ctx.item('voice').hide()
-                    }
+                    perform_action(action,evt.room)
                 }
             })
             STATE.events = []
@@ -143,7 +172,15 @@ check actions
             check_input()
             check_events()
             surface.clear()
-            layers.forEach(layer => layer.draw(surface))
+            layers.forEach(layer => {
+                if(Array.isArray(layer)) {
+                    layer.forEach(layer2 => {
+                        layer2.draw(surface)
+                    })
+                } else {
+                    layer.draw(surface)
+                }
+            })
             requestAnimationFrame(game_loop)
         }
         function start_game_loop() {
@@ -151,16 +188,17 @@ check actions
         }
         async function setup() {
             DATA = await fetch("./config.json").then(res => res.json())
-            STATE.roomid = DATA.settings.startMapId
+            let roomid = DATA.settings.startMapId
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
-            STATE.ROOM = await assets.load_room(STATE.roomid)
+            STATE.ROOM = await assets.load_room(roomid)
             surface = new Surface(STATE,assets,DATA)
             let playerinfo = DATA.people.find(p => p.id === "user")
             STATE.PLAYER = new Player(playerinfo)
             keyboard = new Keyboard()
             await keyboard.setup_input()
-            layers.push(STATE.ROOM)
+            room_layer.push(STATE.ROOM)
+            layers.push(room_layer)
             layers.push(STATE.PLAYER)
             layers.push(new DebugOverlay(STATE))
 

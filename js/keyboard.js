@@ -23,5 +23,11 @@ export class Keyboard {
     }
     stop() {
         this.enabled = false
+        Object.keys(this.keyboard).forEach(key => {
+            this.keyboard[key] = false
+        })
     } 
+    start() {
+        this.enabled = true
+    }
 }

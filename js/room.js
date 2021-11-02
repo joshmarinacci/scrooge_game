@@ -39,35 +39,23 @@ export class Room {
         return tile
     }
     tile_info_at_pixel(surf,xy) {
-        // this.log('checking if blocking as',xy)
         let infos = []
         this.data.layers.forEach(layer => {
             if(layer.type === 'drawn') {
                 let n = xy.x + xy.y*layer.width
-                // this.log("n is",n)
                 let target = layer.data[n]
-                // this.log('target is',target)
+                if(!target) return
                 let tile = this.lookup_master_tile(surf,target)
-                // this.log("tile is",tile)
                 tile.type = 'tile'
                 infos.push(tile)
             }
             if(layer.type === 'item') {
-                // this.log('checking item',layer)
                 layer.data
                     .filter(info => info.x == xy.x && info.y == xy.y)
                     .forEach(info => {
-                        // console.log("info is",info)
                         info.type = 'item'
                         infos.push(info)
                     })
-                    // .map(info => {
-                    //     return this.lookup_master_item(surf,info)
-                    // })
-                    // .map(info => {
-                    //     info.blocking = true
-                    //     return info
-                    // })
             }
         })
         return infos
