@@ -44,13 +44,13 @@
         }
         function attempt_move(player,offset) {
             STATE.test_tile = player.center.add(offset)
-            let infos = STATE.ROOM.tile_info_at_pixel(surface, STATE.test_tile)
+            let infos = STATE.get_current_room().tile_info_at_pixel(surface, STATE.test_tile)
             for (let info of infos) {
                 if (info.type === 'tile' && info.blocking) return
                 if (info.type === 'item') {
                     if(is_item_visible(info)) {
                         log("blocked by an item",info)
-                        STATE.dispatch_event({type:'use-item',info:info, room:STATE.ROOM})
+                        STATE.dispatch_event({type:'use-item',info:info, room:STATE.get_current_room()})
                         return
                     }
                 }
@@ -60,7 +60,7 @@
             STATE.move_scroll(offset)
         }
         function check_input() {
-            let player = STATE.PLAYER
+            let player = STATE.get_player()
             if (keyboard.is_pressed('ArrowUp'))    attempt_move(player,make_point(0,-1))
             if (keyboard.is_pressed('ArrowDown'))  attempt_move(player,make_point(0,+1))
             if (keyboard.is_pressed('ArrowLeft'))  attempt_move(player, make_point(-1,0))
@@ -88,23 +88,22 @@
         }
         async function setup() {
             DATA = await fetch("./config.json").then(res => res.json())
-            let roomid = DATA.settings.startMapId
+            STATE.set_data(DATA)
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
-            STATE.ROOM = await assets.load_room(roomid)
+            STATE.set_current_room(await assets.load_room(DATA.settings.startMapId))
 
             surface = new Surface(STATE,assets,DATA)
-            let playerinfo = DATA.people.find(p => p.id === "user")
-            STATE.PLAYER = new Player(playerinfo)
+            STATE.set_player(new Player(DATA.people.find(p => p.id === "user")))
             keyboard = new Keyboard()
             await keyboard.setup_input()
-            room_layer.push(STATE.ROOM)
+            room_layer.push(STATE.get_current_room())
             layers.push(room_layer)
-            layers.push(STATE.PLAYER)
+            layers.push(STATE.get_player())
             layers.push(new DebugOverlay(STATE))
 
             actions = new ActionManager(STATE,keyboard,room_layer,assets, surface)
-            actions.player_enter_room(STATE.PLAYER, STATE.ROOM)
+            actions.player_enter_room(STATE.get_player(), STATE.get_current_room())
             start_game_loop()
         }
         setup().then(() => {

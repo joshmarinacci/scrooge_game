@@ -57,15 +57,15 @@ export class DebugOverlay {
         this.state = state
     }
     draw(surf) {
+        let player = this.state.get_player()
         surf.ctx.fillStyle = 'cyan'
         surf.ctx.fillRect(0, 0, 100, 30)
         surf.ctx.fillStyle = 'black'
         surf.ctx.fillText(`scroll ${this.state.scroll.x} , ${this.state.scroll.y}`, 2, 10)
-        surf.ctx.fillText(`player center ${this.state.PLAYER.center.x} , ${this.state.PLAYER.center.y}`, 2, 20)
-        surf.ctx.fillText(`player offset ${this.state.PLAYER.offset.x} , ${this.state.PLAYER.offset.y}`, 2, 30)
+        surf.ctx.fillText(`player center ${player.center.x} , ${player.center.y}`, 2, 20)
+        surf.ctx.fillText(`player offset ${player.offset.x} , ${player.offset.y}`, 2, 30)
 
         // draw location of player
-        let player = this.state.PLAYER
         surf.stroke_pixel_rect(
             player.center.x * surf.tile_width + this.state.scroll.x,
             player.center.y * surf.tile_height + this.state.scroll.y,

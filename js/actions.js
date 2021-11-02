@@ -76,10 +76,14 @@ export class ActionManager {
     }
 
     recenter_room_around_player() {
-        console.log("player is at",this.state.PLAYER.center)
+        let player = this.state.get_player()
+        console.log("player is at",player.center)
         console.log("screne is", this.surface.viewport.width_in_tiles)
-        this.state.scroll.x = (this.state.PLAYER.center.x - this.surface.viewport.width_in_tiles/2) * (-16)
-        this.state.scroll.y = (this.state.PLAYER.center.y - this.surface.viewport.height_in_tiles/2) * (-16)
+        let pt = new Point(
+            (player.center.x - this.surface.viewport.width_in_tiles/2) * (-16),
+            (player.center.y - this.surface.viewport.height_in_tiles/2) * (-16)
+        )
+        this.state.set_scroll(pt)
     }
 
     player_enter_room(player, room) {
