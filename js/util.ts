@@ -22,7 +22,3 @@ export class Point {
 export function make_point(x,y) {
     return new Point(x,y)
 }
-export function clone_point(pt) {
-    return new Point(pt.x,pt.y)
-}
-

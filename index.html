@@ -16,11 +16,10 @@
 <body>
     <script type="module">
         import { Keyboard } from "./js/keyboard.js"
-        import { Room } from "./js/room.js"
         import { Player } from "./js/player.js"
-        import { Point, make_point, clone_point} from "./js/util.js"
+        import { make_point} from "./js/util.js"
         import { AssetManager} from "./js/assets.js"
-        import { Surface, DebugOverlay} from "./js/drawing.js"
+        import {Surface, DebugOverlay, DialogOverlay} from "./js/drawing.js"
         import { ActionManager } from "./js/actions.js"
         import {GameState} from "./js/game.js"
 
@@ -97,12 +96,16 @@
             STATE.set_player(new Player(DATA.people.find(p => p.id === "user")))
             keyboard = new Keyboard()
             await keyboard.setup_input()
+            STATE.keyboard = keyboard
             room_layer.push(STATE.get_current_room())
             layers.push(room_layer)
             layers.push(STATE.get_player())
+            STATE.dialog = new DialogOverlay(STATE)
+            STATE.dialog.visible = false
+            layers.push(STATE.dialog)
             layers.push(new DebugOverlay(STATE))
 
-            actions = new ActionManager(STATE,keyboard,room_layer,assets, surface)
+            actions = new ActionManager(STATE,room_layer,assets, surface)
             actions.player_enter_room(STATE.get_player(), STATE.get_current_room())
             start_game_loop()
         }

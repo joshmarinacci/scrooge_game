@@ -1,8 +1,7 @@
 import {Point} from "./util.js"
 export class ActionManager {
-    constructor(state, keyboard, room_layer, assets, surface) {
+    constructor(state, room_layer, assets, surface) {
         this.state = state
-        this.keyboard = keyboard
         this.room_layer = room_layer
         this.assets = assets
         this.surface = surface
@@ -14,13 +13,12 @@ export class ActionManager {
     perform_action(action, room) {
         this.log("performing action", action)
         if (action.type === 'dialog') {
-            this.keyboard.stop()
-            this.log("doing the dialog", action.dialog)
-            if (action.next) {
-                setTimeout(() => {
-                    this.state.events.push({ type: 'next-action', actionid: action.next, room: room })
-                }, 0)
-            }
+            this.perform_dialog(action)
+            // if (action.next) {
+            //     setTimeout(() => {
+            //         this.state.events.push({ type: 'next-action', actionid: action.next, room: room })
+            //     }, 0)
+            // }
         }
         if (action.type === 'script') {
             this.log('doing script action')
@@ -39,11 +37,11 @@ export class ActionManager {
                 }
             }
             ctx.item('voice').hide()
-            this.keyboard.start()
+            this.state.keyboard.start()
         }
         if (action.type === 'gotoroom') {
             this.log("going to a new room", action.gotoroom)
-            this.keyboard.stop()
+            this.state.keyboard.stop()
             let n = this.room_layer.indexOf(this.state.ROOM)
             this.room_layer.splice(n, 1)
             this.log("now room layers are", this.room_layer.length)
@@ -55,7 +53,7 @@ export class ActionManager {
                 this.log('starting at', start)
                 this.state.PLAYER.center = new Point(action.gotoroom.dx, action.gotoroom.dy)
                 this.recenter_room_around_player()
-                this.keyboard.start()
+                this.state.keyboard.start()
             })
         }
     }
@@ -94,6 +92,11 @@ export class ActionManager {
     }
 
 
-
+    perform_dialog(action) {
+        this.log("doing the dialog", action.dialog)
+        this.state.keyboard.stop()
+        this.state.dialog.set_action(action)
+        this.state.dialog.visible = true
+    }
 }
 

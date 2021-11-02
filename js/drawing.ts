@@ -1,5 +1,33 @@
+import {GameState} from "./game.js";
+
+class SceneObject {
+    get visible(): boolean {
+        return this._visible;
+    }
+
+    set visible(value: boolean) {
+        this._visible = value;
+    }
+    private _visible: boolean
+
+    constructor() {
+        this._visible = true
+    }
+}
+
 export class Surface {
-    constructor(STATE, assets,data) {
+    private data: any;
+    private tilegroups: any;
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private tile_width: number;
+    private tile_height: number;
+    private scale: number;
+    private state: GameState;
+    private assets: any;
+    private tile_groups: any[];
+    private viewport: { width_in_tiles: number; height_in_tiles: number };
+    constructor(STATE:GameState, assets,data) {
         this.data = data
         this.tilegroups = data.tilegroups
         this.canvas = document.createElement('canvas')
@@ -53,22 +81,24 @@ export class Surface {
 
 
 export class DebugOverlay {
-    constructor(state) {
+    private state: GameState;
+    constructor(state:GameState) {
         this.state = state
     }
     draw(surf) {
         let player = this.state.get_player()
+        let scroll = this.state.get_scroll()
         surf.ctx.fillStyle = 'cyan'
         surf.ctx.fillRect(0, 0, 100, 30)
         surf.ctx.fillStyle = 'black'
-        surf.ctx.fillText(`scroll ${this.state.scroll.x} , ${this.state.scroll.y}`, 2, 10)
+        surf.ctx.fillText(`scroll ${scroll.x} , ${scroll.y}`, 2, 10)
         surf.ctx.fillText(`player center ${player.center.x} , ${player.center.y}`, 2, 20)
         surf.ctx.fillText(`player offset ${player.offset.x} , ${player.offset.y}`, 2, 30)
 
         // draw location of player
         surf.stroke_pixel_rect(
-            player.center.x * surf.tile_width + this.state.scroll.x,
-            player.center.y * surf.tile_height + this.state.scroll.y,
+            player.center.x * surf.tile_width + scroll.x,
+            player.center.y * surf.tile_height + scroll.y,
             surf.tile_width,
             surf.tile_height,
             'magenta',
@@ -81,12 +111,48 @@ export class DebugOverlay {
         )
 
         surf.stroke_pixel_rect(
-            this.state.test_tile.x * surf.tile_width + this.state.scroll.x,
-            this.state.test_tile.y * surf.tile_height + this.state.scroll.y,
+            this.state.test_tile.x * surf.tile_width + scroll.x,
+            this.state.test_tile.y * surf.tile_height + scroll.y,
             surf.tile_width,
             surf.tile_height,
             'green'
         )
 
+    }
+}
+
+export class DialogOverlay extends SceneObject {
+    private state: GameState;
+    private action: any;
+    private count: number;
+    constructor(state:GameState) {
+        super();
+        this.state = state
+        this.count = 0
+    }
+    draw(surf) {
+        if(!this.visible) return
+        let w = 400
+        let h = 200
+        let xoff = (surf.canvas.width - w)/2
+        let yoff = (surf.canvas.height -h)/2
+
+        // fill bg
+        surf.ctx.fillStyle = 'red'
+        surf.ctx.fillRect(xoff, yoff, w, h)
+        surf.ctx.fillStyle = 'white'
+        surf.ctx.fillRect(xoff+2, yoff+2, w-4, h-4)
+
+        surf.ctx.fillStyle = 'black'
+        let phrase = this.action.dialog[this.count]
+        surf.ctx.font = '16pt sans-serif'
+        surf.ctx.fillText(phrase.person, xoff+10, yoff+10)
+        surf.ctx.fillText(phrase.text, xoff+10, yoff+30)
+    }
+
+    set_action(action) {
+        this.action = action
+        this.count = 0
+        console.log("set dialog to",this.action)
     }
 }

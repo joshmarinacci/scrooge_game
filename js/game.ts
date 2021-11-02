@@ -1,5 +1,7 @@
 import {make_point, Point} from "./util.js";
 import {Player} from "./player.js";
+import {DialogOverlay} from "./drawing.js";
+import {Keyboard} from "./keyboard.js";
 
 export class GameState {
     events: any[]
@@ -8,6 +10,8 @@ export class GameState {
     private data: any;
     private room: any;
     private player: Player;
+    public dialog: DialogOverlay
+    public keyboard: Keyboard
 
     constructor() {
         this.scroll = make_point(0, 0)
@@ -45,5 +49,9 @@ export class GameState {
 
     get_current_room() {
         return this.room
+    }
+
+    get_scroll() {
+        return this.scroll
     }
 }

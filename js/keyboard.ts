@@ -1,4 +1,6 @@
 export class Keyboard {
+    private keyboard: {};
+    private enabled: boolean;
     constructor() {
         this.keyboard = {}
         this.enabled = true
@@ -26,7 +28,7 @@ export class Keyboard {
         Object.keys(this.keyboard).forEach(key => {
             this.keyboard[key] = false
         })
-    } 
+    }
     start() {
         this.enabled = true
     }

@@ -3,7 +3,7 @@ import {Point} from "./util.js";
 export class Player {
     info:any
     center:Point
-    private offset:Point
+    offset:Point
     constructor(info) {
         this.info = info
         this.center = new Point(4,7)
