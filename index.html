@@ -7,6 +7,7 @@
             image-rendering: -moz-crisp-edges;
             image-rendering: -webkit-crisp-edges;
             image-rendering: pixelated;
+            border: 1px solid black;
         }
     </style>
 </head>
@@ -23,6 +24,9 @@ find the tiles for the first room
 <script src="../ga/ga.js"></script>
 <script src="../ga/plugins.js"></script>
 <script type="module">
+    import {Keyboard} from "./js/keyboard.js"
+    import {Room} from "./js/room.js"
+
     console.log("loading stuff")
     let DATA = null
     let CANVAS = null
@@ -34,10 +38,49 @@ find the tiles for the first room
     const IMAGES = {}
     const log = (...args) => console.log(...args)
     let STATE = {
-        roomid:""
+        roomid:"",
+        scroll: {
+            x:0,
+            y:0,
+        }
     }
 
     let ctx = null
+
+    let surface = null
+
+    class Surface {
+        constructor(canvas) {
+            this.canvas = canvas
+            this.ctx = canvas.getContext('2d')
+            this.tile_width = 16
+            this.tile_height = 16
+            this.scale = 3
+            this.state = STATE
+            this.tile_groups = []
+        }
+        clear() {
+            this.ctx.fillStyle = 'green'
+            this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height)
+        }
+        fill(color) {
+            this.ctx.fillStyle = color
+            this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
+        }
+        draw_tile(position,  offset, tile_center, imageid) {
+            //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
+            let image = IMAGES[imageid]
+            let sx = tile_center.x * tile_width
+            let sy = tile_center.y * tile_height
+            let sw = tile_width
+            let sh = tile_height
+            let dx = (position.x * tile_width + offset.x) * _scale 
+            let dy = (position.y * tile_height + offset.y) * _scale
+            let dw = tile_width * _scale
+            let dh = tile_height * _scale
+            this.ctx.drawImage(image, sx,sy,sw,sh, dx,dy,dw,dh)
+        }
+    }
 
     async function load_room(STATE, id) {
         STATE.room = DATA.maps[id]
@@ -49,36 +92,6 @@ find the tiles for the first room
     }
 
 
-        class Room {
-            constructor(data) {
-                this.data = data
-            }
-            draw(ctx) {
-                this.draw_room(ctx, this.data)
-            }
-            drawLayer(ctx, layer) {
-                if (layer.type !== 'drawn') return
-                if (layer.visible == false) return
-                // log("drawing",layer)
-                layer.data.forEach((info, n) => {
-                    if (!info) return
-                    let x = n % layer.width
-                    let y = Math.floor(n / layer.width)
-                    let group = info.master.group
-                    let id = info.master.id
-                    let tg = DATA.tilegroups[group]
-                    let tile = tg.tiles[id]
-                    let imageid = tile.image
-                    draw_tile(ctx, { x, y }, {x:0, y:0}, tile.center, imageid)
-                })
-            }
-            draw_room(ctx, room) {
-                //console.log("drawing room", room)
-                ctx.fillStyle = room.background
-                ctx.fillRect(0, 0, room.width * tile_width * _scale, room.height * tile_height * _scale)
-                room.layers.forEach(layer => this.drawLayer(ctx, layer))
-            }
-        }
 
         class Player {
             constructor(info) {
@@ -95,14 +108,10 @@ find the tiles for the first room
                 }
             }
             draw(ctx) {
-                draw_tile(ctx, this.center, this.offset, this.info.center, this.info.image)
+                draw_tile(ctx, this.center, {x:0, y:0}, this.info.center, this.info.image)
             }
         }
 
-    async function clearCanvas(ctx) {
-        ctx.fillStyle = 'red'
-        ctx.fillRect(0,0,CANVAS.width, CANVAS.height)
-    }
 
     async function load_images() {
         // log("loading images",DATA.images)
@@ -129,6 +138,7 @@ find the tiles for the first room
         document.body.appendChild(CANVAS)
         ctx = CANVAS.getContext('2d')
         ctx.imageSmoothingEnabled = false
+        surface = new Surface(CANVAS)
     }
     async function setup_player() {
         STATE.playerid = "user"
@@ -156,41 +166,35 @@ find the tiles for the first room
     }
 
 
-    class Keyboard {
-        constructor() {
-            this.keyboard = {}
-        }
-        setup_input() {
-            document.addEventListener('keydown', (e) => {
-                this.keyboard[e.key] = true
-            })
-            document.addEventListener('keyup', (e) => {
-                this.keyboard[e.key] = false
-            })
-        }
-        is_pressed(name) {
-            if(this.keyboard.hasOwnProperty(name) && this.keyboard[name] == true) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
     const keyboard = new Keyboard()
 
     function print(...args) {
         log(...args)
     }
     function check_input() {
-        if(keyboard.is_pressed('ArrowUp')) STATE.PLAYER.offset.y -= 1
-        if(keyboard.is_pressed('ArrowDown')) STATE.PLAYER.offset.y += 1
-        if(keyboard.is_pressed('ArrowLeft')) STATE.PLAYER.offset.x -= 1
-        if(keyboard.is_pressed('ArrowRight')) STATE.PLAYER.offset.x += 1
+        if(keyboard.is_pressed('ArrowUp')) {
+            STATE.PLAYER.offset.y -= 1
+            STATE.scroll.y += 1
+        }
+        if(keyboard.is_pressed('ArrowDown')) {
+            STATE.PLAYER.offset.y += 1
+            STATE.scroll.y -= 1
+        }
+        if(keyboard.is_pressed('ArrowLeft')) {
+            STATE.PLAYER.offset.x -= 1
+            STATE.scroll.x += 1
+        }
+        if(keyboard.is_pressed('ArrowRight')) {
+            STATE.PLAYER.offset.x += 1
+            STATE.scroll.x -= 1
+        }
+
     }
     function game_loop() {
         requestAnimationFrame(game_loop)
         check_input()
-        STATE.ROOM.draw(ctx)
+        surface.clear()
+        STATE.ROOM.draw(surface)
         STATE.PLAYER.draw(ctx)
     }
     function start_game_loop() {
@@ -199,13 +203,13 @@ find the tiles for the first room
     async function setup() {
         await make_canvas()
         DATA = await fetch("./config.json").then(res => res.json())
-        console.log("got the data",DATA)
-        log("settings",DATA.settings)
+        surface.tilegroups = DATA.tilegroups
+        // console.log("got the data",DATA)
+        // log("settings",DATA.settings)
         STATE.roomid = DATA.settings.startMapId
         //STATE.roomid = 'bedroom'
         await load_images()
         await load_room(STATE, STATE.roomid)
-        clearCanvas(ctx)
         await setup_player()
         player_enter_room(STATE.PLAYER, STATE.ROOM)
 
