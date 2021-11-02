@@ -1,6 +1,8 @@
 import {GameState} from "./game.js";
 
 class SceneObject {
+    private listeners: Map<string, [any]>;
+
     get visible(): boolean {
         return this._visible;
     }
@@ -12,7 +14,23 @@ class SceneObject {
 
     constructor() {
         this._visible = true
+        this.listeners = new Map()
     }
+
+    on(type:string, cb:any) {
+        if(!this.listeners.has(type)) {
+            this.listeners.set(type,[] as any)
+        }
+        this.listeners.get(type).push(cb)
+    }
+
+    protected fire(type: string, payload: any) {
+        if(!this.listeners.has(type)) {
+            this.listeners.set(type,[] as any)
+        }
+        this.listeners.get(type).forEach(cb => cb(payload))
+    }
+
 }
 
 export class Surface {
@@ -125,13 +143,35 @@ export class DialogOverlay extends SceneObject {
     private state: GameState;
     private action: any;
     private count: number;
+    private dfa:number
     constructor(state:GameState) {
         super();
         this.state = state
         this.count = 0
+        this.dfa = 0
+    }
+    check_input() {
+        if(this.dfa === 0) {
+            if (this.state.keyboard.is_pressed('Space')) {
+                this.dfa = 1
+                return
+            }
+        }
+        if(this.dfa === 1) {
+            if(!this.state.keyboard.is_pressed('Space')) {
+                this.dfa = 0
+                this.count++
+                if(this.count >= this.action.dialog.length) {
+                    console.log('we are at the end of the dailog')
+                    this.fire("end",{})
+                }
+                return
+            }
+        }
     }
     draw(surf) {
         if(!this.visible) return
+        console.log(this.count)
         let w = 400
         let h = 200
         let xoff = (surf.canvas.width - w)/2
@@ -155,4 +195,5 @@ export class DialogOverlay extends SceneObject {
         this.count = 0
         console.log("set dialog to",this.action)
     }
+
 }

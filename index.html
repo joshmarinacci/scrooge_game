@@ -68,7 +68,11 @@
 
 
         function game_loop() {
-            check_input()
+            if(STATE.mode === "dialog") {
+                STATE.dialog.check_input()
+            } else {
+                check_input()
+            }
             actions.check_events()
             surface.clear()
             layers.forEach(layer => {

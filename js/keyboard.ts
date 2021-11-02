@@ -8,11 +8,12 @@ export class Keyboard {
     setup_input() {
         document.addEventListener('keydown', (e) => {
             if(!this.enabled) return
-            this.keyboard[e.key] = true
+            this.keyboard[e.code] = true
+            console.log("key down is",e)
         })
         document.addEventListener('keyup', (e) => {
             if(!this.enabled) return
-            this.keyboard[e.key] = false
+            this.keyboard[e.code] = false
         })
     }
     is_pressed(name) {

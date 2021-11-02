@@ -13,12 +13,7 @@ export class ActionManager {
     perform_action(action, room) {
         this.log("performing action", action)
         if (action.type === 'dialog') {
-            this.perform_dialog(action)
-            // if (action.next) {
-            //     setTimeout(() => {
-            //         this.state.events.push({ type: 'next-action', actionid: action.next, room: room })
-            //     }, 0)
-            // }
+            this.perform_dialog(action,room)
         }
         if (action.type === 'script') {
             this.log('doing script action')
@@ -92,11 +87,21 @@ export class ActionManager {
     }
 
 
-    perform_dialog(action) {
+    perform_dialog(action,room) {
         this.log("doing the dialog", action.dialog)
-        this.state.keyboard.stop()
+        this.state.set_mode("dialog")
         this.state.dialog.set_action(action)
         this.state.dialog.visible = true
+        this.state.dialog.on('end',() => {
+            console.log("we are done. action next is", action.next)
+            this.state.dialog.visible = false
+            this.state.set_mode('map')
+            if (action.next) {
+                setTimeout(() => {
+                    this.state.dispatch_event({ type: 'next-action', actionid: action.next, room: room })
+                }, 0)
+            }
+        })
     }
 }
 

@@ -3,6 +3,8 @@ import {Player} from "./player.js";
 import {DialogOverlay} from "./drawing.js";
 import {Keyboard} from "./keyboard.js";
 
+type Mode = "map" | "dialog"
+
 export class GameState {
     events: any[]
     test_tile: Point
@@ -12,11 +14,17 @@ export class GameState {
     private player: Player;
     public dialog: DialogOverlay
     public keyboard: Keyboard
+    mode:Mode
 
     constructor() {
         this.scroll = make_point(0, 0)
         this.events = []
         this.test_tile = make_point(0, 0)
+        this.mode = "map"
+    }
+
+    set_mode(mode:Mode) {
+        this.mode = mode
     }
 
     move_scroll(offset: Point) {
@@ -27,7 +35,7 @@ export class GameState {
         this.scroll = point
     }
 
-    dispatch_event(event: { type: string; room: any; info: any }) {
+    dispatch_event(event:any) {
         this.events.push(event)
     }
 
