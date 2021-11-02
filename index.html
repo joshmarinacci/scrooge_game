@@ -44,6 +44,7 @@ check actions
         import { Point, make_point, clone_point} from "./js/util.js"
         import { AssetManager} from "./js/assets.js"
         import { Surface, DebugOverlay} from "./js/drawing.js"
+        import { ActionManager } from "./js/actions.js"
 
         let DATA = null
         const log = (...args) => console.log(...args)
@@ -57,13 +58,7 @@ check actions
         let assets
         let surface = null
         let keyboard = null
-
-        function player_enter_room(player, room) {
-            log("player goes to room", player, room.data.start)
-            player.x = room.data.start.x
-            player.y = room.data.start.y
-            recenter_room_around_player()
-        }
+        let actions = null
 
 
         function print(...args) {
@@ -100,77 +95,10 @@ check actions
             if (keyboard.is_pressed('ArrowRight')) attempt_move(player,make_point(+1,0))
         }
 
-        function recenter_room_around_player() {
-            console.log("player is at",STATE.PLAYER.center)
-            console.log("screne is", surface.viewport.width_in_tiles)
-            STATE.scroll.x = (STATE.PLAYER.center.x - surface.viewport.width_in_tiles/2) * (-16)
-            STATE.scroll.y = (STATE.PLAYER.center.y - surface.viewport.height_in_tiles/2) * (-16)
-        }
-        function perform_action(action,room) {
-            log("performing action",action)
-            if(action.type === 'dialog') {
-                keyboard.stop()
-                log("doing the dialog", action.dialog)
-                if(action.next) {
-                    setTimeout(()=>{
-                        STATE.events.push({type:'next-action',actionid:action.next, room:room})
-                    },0)
-                }
-            }
-            if(action.type === 'script') {
-                log('doing script action')
-                let ctx = {
-                    item:function(id) {
-                        console.log("looking up item",id)
-                        let item = room.lookup_item(id)
-                        console.log("the item is",item)
-                        let item_wrapper = {
-                            hide() {
-                                log("hiding",item)
-                                item.settings.visible.value = false
-                            }
-                        }
-                        return item_wrapper
-                    }
-                }
-                ctx.item('voice').hide()
-                keyboard.start()
-            }
-            if(action.type === 'gotoroom') {
-                log("going to a new room",action.gotoroom)
-                keyboard.stop()
-                let n = room_layer.indexOf(STATE.ROOM)
-                room_layer.splice(n,1)
-                log("now room layers are",room_layer.length)
-                assets.load_room('pearlygates').then((room)=>{
-                    console.log("room loaded",room)
-                    STATE.ROOM = room
-                    room_layer.push(STATE.ROOM)
-                    STATE.PLAYER.center = make_point(action.gotoroom.dx, action.gotoroom.dy)
-                    recenter_room_around_player()
-                    keyboard.start()
-                })
-            }
-        }
-        function check_events() {
-            STATE.events.slice().forEach(evt => {
-                log("event happened",evt)
-                if(evt.type === 'use-item') {
-                    let action = evt.room.lookup_action_for_item(evt.info.settings.id.value)
-                    perform_action(action,evt.room)
-                }
-                if(evt.type === 'next-action') {
-                    let action =evt.room.lookup_action(evt.actionid)
-                    perform_action(action,evt.room)
-                }
-            })
-            STATE.events = []
-        }
-
 
         function game_loop() {
             check_input()
-            check_events()
+            actions.check_events()
             surface.clear()
             layers.forEach(layer => {
                 if(Array.isArray(layer)) {
@@ -192,6 +120,7 @@ check actions
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
             STATE.ROOM = await assets.load_room(roomid)
+
             surface = new Surface(STATE,assets,DATA)
             let playerinfo = DATA.people.find(p => p.id === "user")
             STATE.PLAYER = new Player(playerinfo)
@@ -202,7 +131,8 @@ check actions
             layers.push(STATE.PLAYER)
             layers.push(new DebugOverlay(STATE))
 
-            player_enter_room(STATE.PLAYER, STATE.ROOM)
+            actions = new ActionManager(STATE,keyboard,room_layer,assets, surface)
+            actions.player_enter_room(STATE.PLAYER, STATE.ROOM)
             start_game_loop()
         }
         setup().then(() => {
