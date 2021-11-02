@@ -49,22 +49,25 @@ export class Room {
                 // this.log('target is',target)
                 let tile = this.lookup_master_tile(surf,target)
                 // this.log("tile is",tile)
+                tile.type = 'tile'
                 infos.push(tile)
             }
             if(layer.type === 'item') {
                 // this.log('checking item',layer)
-                let intersects = layer.data
+                layer.data
                     .filter(info => info.x == xy.x && info.y == xy.y)
-                    .map(info => {
-                        return this.lookup_master_item(surf,info)
-                    })
-                    .map(info => {
-                        info.blocking = true
-                        return info
-                    })
                     .forEach(info => {
+                        // console.log("info is",info)
+                        info.type = 'item'
                         infos.push(info)
                     })
+                    // .map(info => {
+                    //     return this.lookup_master_item(surf,info)
+                    // })
+                    // .map(info => {
+                    //     info.blocking = true
+                    //     return info
+                    // })
             }
         })
         return infos

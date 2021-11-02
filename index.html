@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <style type="text/css">
         canvas {
@@ -11,8 +12,9 @@
         }
     </style>
 </head>
+
 <body>
-<!--
+    <!--
 
 - init a canvas
 - find the first room from settings
@@ -23,311 +25,273 @@ when move
     if collide, don't allow the movement
     else update the scroll
 
+    if colliding with an item emit an item event
+    if colliding with a tile emit a collision event
 
+    look up actions for that item using item.settings.id
 
 -->
-<script src="../ga/ga.js"></script>
-<script src="../ga/plugins.js"></script>
-<script type="module">
-    import {Keyboard} from "./js/keyboard.js"
-    import {Room} from "./js/room.js"
+    <script src="../ga/ga.js"></script>
+    <script src="../ga/plugins.js"></script>
+    <script type="module">
+        import { Keyboard } from "./js/keyboard.js"
+        import { Room } from "./js/room.js"
+        import { Player } from "./js/player.js"
 
-    console.log("loading stuff")
-    let DATA = null
-    let CANVAS = null
-    const TILE_WIDTH = 16
-    const tile_width = 16
-    const tile_height = 16
-    const TILE_HEIGHT = 16
-    const _scale = 4
-    const IMAGES = {}
-    const log = (...args) => console.log(...args)
-    let STATE = {
-        roomid:"",
-        scroll: {
-            x:0,
-            y:-16*3,
-        }
-    }
-
-    let ctx = null
-
-    let surface = null
-
-    class Surface {
-        constructor(canvas) {
-            this.canvas = canvas
-            this.ctx = canvas.getContext('2d')
-            this.tile_width = 16
-            this.tile_height = 16
-            this.scale = 4
-            this.state = STATE
-            this.tile_groups = []
-            this.viewport = {
-                width_in_tiles:8,
-                height_in_tiles:8,
+        console.log("loading stuff")
+        let DATA = null
+        let CANVAS = null
+        const _scale = 4
+        const IMAGES = {}
+        const log = (...args) => console.log(...args)
+        let STATE = {
+            roomid: "",
+            scroll: {
+                x: 0,
+                y: -16 * 3,
             }
         }
-        clear() {
-            this.ctx.fillStyle = 'green'
-            this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height)
-        }
-        fill(color) {
-            this.ctx.fillStyle = color
-            this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
-        }
-        draw_tile(position,  offset, tile_center, imageid) {
-            //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
-            let image = IMAGES[imageid]
-            let sx = tile_center.x * tile_width
-            let sy = tile_center.y * tile_height
-            let sw = tile_width
-            let sh = tile_height
-            let dx = (position.x * tile_width + offset.x) * _scale 
-            let dy = (position.y * tile_height + offset.y) * _scale
-            let dw = tile_width * _scale
-            let dh = tile_height * _scale
-            this.ctx.drawImage(image, sx,sy,sw,sh, dx,dy,dw,dh)
-        }
-        stroke_pixel_rect(x,y,w,h, color) {
-            this.ctx.strokeStyle = color
-            this.ctx.strokeRect(
-                x * this.scale,
-                y * this.scale,
-                w * this.scale,
-                h * this.scale,
-            )
-        }
-    }
 
-    async function load_room(STATE, id) {
-        STATE.room = DATA.maps[id]
-        log("state is",STATE)
-        let data = await fetch(`./maps/${STATE.room.path}`).then(res => res.json())
-        STATE.ROOM = new Room(data)
-        log("ROOM is",STATE.ROOM)
-        log("player will be positioned at", STATE.ROOM.start)
-    }
+        let ctx = null
 
+        let surface = null
 
-
-        class Player {
-            constructor(info) {
-                this.info = info
-                // log("player info is", this.info)
-                // log("player image is", IMAGES[this.info.image])
-                this.center = {
-                    x: 4,
-                    y: 7,
-                }
-                this.offset = {
-                    x:0,
-                    y:0,
+        class Surface {
+            constructor(canvas) {
+                this.canvas = canvas
+                this.ctx = canvas.getContext('2d')
+                this.tile_width = 16
+                this.tile_height = 16
+                this.scale = 4
+                this.state = STATE
+                this.tile_groups = []
+                this.viewport = {
+                    width_in_tiles: 8,
+                    height_in_tiles: 8,
                 }
             }
-            draw(surf) {
-                surf.draw_tile(
-                    //draw in the center of the viewport
-                    {
-                        x:surf.viewport.width_in_tiles/2, 
-                        y: surf.viewport.height_in_tiles/2
-                    },
-                     {x:0, y:0}, 
-                     this.info.center, 
-                     this.info.image)
+            clear() {
+                this.ctx.fillStyle = 'green'
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+            }
+            fill(color) {
+                this.ctx.fillStyle = color
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+            }
+            draw_tile(position, offset, tile_center, imageid) {
+                //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
+                let image = IMAGES[imageid]
+                let sx = tile_center.x * this.tile_width
+                let sy = tile_center.y * this.tile_height
+                let sw = this.tile_width
+                let sh = this.tile_height
+                let dx = (position.x * this.tile_width + offset.x) * this.scale
+                let dy = (position.y * this.tile_height + offset.y) * this.scale
+                let dw = this.tile_width * this.scale
+                let dh = this.tile_height * this.scale
+                this.ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+            }
+            stroke_pixel_rect(x, y, w, h, color) {
+                this.ctx.strokeStyle = color
+                this.ctx.strokeRect(
+                    x * this.scale,
+                    y * this.scale,
+                    w * this.scale,
+                    h * this.scale,
+                )
             }
         }
 
-
-    async function load_images() {
-        // log("loading images",DATA.images)
-        for(let key of Object.keys(DATA.images)) {
-            // log("key is",key)
-            IMAGES[key] = await load_image(DATA.images[key])
+        async function load_room(STATE, id) {
+            STATE.room = DATA.maps[id]
+            log("state is", STATE)
+            let data = await fetch(`./maps/${STATE.room.path}`).then(res => res.json())
+            STATE.ROOM = new Room(data)
+            log("ROOM is", STATE.ROOM)
+            log("player will be positioned at", STATE.ROOM.start)
         }
-    }
-    function load_image(path) {
-        return new Promise((res,rej)=>{
-            let img = new Image()
-            // log("starting to load",path)
-            img.addEventListener('load',()=>{
-                // log("finished loading",path,img)
-                res(img)
+
+
+        async function load_images() {
+            // log("loading images",DATA.images)
+            for (let key of Object.keys(DATA.images)) {
+                // log("key is",key)
+                IMAGES[key] = await load_image(DATA.images[key])
+            }
+        }
+        function load_image(path) {
+            return new Promise((res, rej) => {
+                let img = new Image()
+                // log("starting to load",path)
+                img.addEventListener('load', () => {
+                    // log("finished loading",path,img)
+                    res(img)
+                })
+                img.src = path
             })
-            img.src = path
-        })
-    }
-    async function make_canvas() {
-        CANVAS = document.createElement('canvas')
-        CANVAS.width = 700
-        CANVAS.height = 600
-        document.body.appendChild(CANVAS)
-        ctx = CANVAS.getContext('2d')
-        ctx.imageSmoothingEnabled = false
-        surface = new Surface(CANVAS)
-    }
-    async function setup_player() {
-        STATE.playerid = "user"
-        STATE.playerinfo = DATA.people.find(p => p.id === STATE.playerid)
-        STATE.PLAYER = new Player(STATE.playerinfo)
-    }
-    function player_enter_room(player,room) {
-        log("player goes to room",player,room.data.start)
-        player.x = room.data.start.x
-        player.y = room.data.start.y
-    }
+        }
+        async function make_canvas() {
+            CANVAS = document.createElement('canvas')
+            CANVAS.width = 700
+            CANVAS.height = 600
+            document.body.appendChild(CANVAS)
+            ctx = CANVAS.getContext('2d')
+            ctx.imageSmoothingEnabled = false
+            surface = new Surface(CANVAS)
+        }
+        async function setup_player() {
+            STATE.playerid = "user"
+            STATE.playerinfo = DATA.people.find(p => p.id === STATE.playerid)
+            STATE.PLAYER = new Player(STATE.playerinfo)
+        }
+        function player_enter_room(player, room) {
+            log("player goes to room", player, room.data.start)
+            player.x = room.data.start.x
+            player.y = room.data.start.y
+        }
 
-    const keyboard = new Keyboard()
+        const keyboard = new Keyboard()
 
-    let test_tile = {
-        x:0,
-        y:0,
-    }
-    function print(...args) {
-        log(...args)
-    }
-    function check_input() {
-        let player = STATE.PLAYER
-        function clone_point(pt) {
-            return {
-                x:pt.x,
-                y:pt.y
+        let test_tile = {
+            x: 0,
+            y: 0,
+        }
+        function print(...args) {
+            log(...args)
+        }
+        class Point {
+            constructor(x,y) {
+                if(typeof x == 'number') {
+                    this.x = x
+                    this.y = y
+                } else {
+                    this.x = x.x
+                    this.y = x.y
+                }
             }
+            add(pt) {
+                return new Point(this.x + pt.x, this.y + pt.y)
+            }
+        }
+        function clone_point(pt) {
+            return new Point(pt.x,pt.y)
         }
         function normalize(player) {
-            if(player.offset.x <= -16) {
+            if (player.offset.x <= -16) {
                 player.offset.x += 16
                 player.center.x -= 1
             }
-            if(player.offset.x >= 16) {
+            if (player.offset.x >= 16) {
                 player.offset.x -= 16
                 player.center.x += 1
             }
-            if(player.offset.y < -16) {
+            if (player.offset.y < -16) {
                 player.offset.y += 16
                 player.center.y -= 1
             }
-            if(player.offset.y >= 16) {
+            if (player.offset.y >= 16) {
                 player.offset.y -= 16
                 player.center.y += 1
             }
         }
-        if(keyboard.is_pressed('ArrowUp')) {
-            test_tile = clone_point(player.center)
-            test_tile.y -= 1
-            let info = STATE.ROOM.tile_info_at_pixel(surface,test_tile)
-            let blocking = info.some(inf => inf.blocking)
-            if(!blocking) {
-                player.offset.y -= 1
-                normalize(player)
-                STATE.scroll.y += 1
-            }
+        function make_point(x,y) {
+            return new Point(x,y)
         }
-        if(keyboard.is_pressed('ArrowDown')) {
+        function attempt_move(player,offset) {
             test_tile = clone_point(player.center)
-            test_tile.y += 1
-            let info = STATE.ROOM.tile_info_at_pixel(surface,test_tile)
-            let blocking = info.some(inf => inf.blocking)
-            if(!blocking) {
-                player.offset.y += 1
-                normalize(player)
-                STATE.scroll.y -= 1
-            }
+            test_tile = test_tile.add(offset)
+            let infos = STATE.ROOM.tile_info_at_pixel(surface, test_tile)
+            for (let info of infos) {
+                    if (info.type === 'tile' && info.blocking) return
+                    if (info.type === 'item') {
+                        log("blocked by an item")
+                        return
+                    }
+                }
+            player.offset.y += offset.y
+            player.offset.x += offset.x
+            normalize(player)
+            STATE.scroll.y -= offset.y
+            STATE.scroll.x -= offset.x
         }
-        if(keyboard.is_pressed('ArrowLeft')) {
-            test_tile = clone_point(player.center)
-            test_tile.x -= 1
-            let info = STATE.ROOM.tile_info_at_pixel(surface,test_tile)
-            let blocking = info.some(inf => inf.blocking)
-            if(!blocking) {
-                player.offset.x -= 1
-                normalize(player)
-                STATE.scroll.x += 1
-            }
-        }
-        if(keyboard.is_pressed('ArrowRight')) {
-            test_tile = clone_point(player.center)
-            test_tile.x += 1
-            let info = STATE.ROOM.tile_info_at_pixel(surface,test_tile)
-            let blocking = info.some(inf => inf.blocking)
-            if(!blocking) {
-                player.offset.x += 1
-                normalize(player)
-                STATE.scroll.x -= 1
-            }
-        }
-
-    }
-    
-    class DebugOverlay {
-        draw(surf) {
-            surf.ctx.fillStyle = 'cyan'
-            surf.ctx.fillRect(0,0,100,30)
-            surf.ctx.fillStyle = 'black'
-            surf.ctx.fillText(`scroll ${STATE.scroll.x} , ${STATE.scroll.y}`,2,10)
-            surf.ctx.fillText(`player center ${STATE.PLAYER.center.x} , ${STATE.PLAYER.center.y}`,2,20)
-            surf.ctx.fillText(`player offset ${STATE.PLAYER.offset.x} , ${STATE.PLAYER.offset.y}`,2,30)
-
-            // draw location of player
+        function check_input() {
             let player = STATE.PLAYER
-            surf.stroke_pixel_rect(
-                player.center.x * surf.tile_width + STATE.scroll.x,
-                player.center.y * surf.tile_height + STATE.scroll.y,
-                surf.tile_width,
-                surf.tile_height,
-                'magenta',
-            )
-
-            surf.stroke_pixel_rect(0,0,
-                surf.viewport.width_in_tiles*surf.tile_width,
-                surf.viewport.height_in_tiles*surf.tile_height,
-                'red'
-            )
-
-            surf.stroke_pixel_rect(
-                test_tile.x * surf.tile_width + STATE.scroll.x,
-                test_tile.y * surf.tile_height + STATE.scroll.y, 
-                surf.tile_width,
-                surf.tile_height,
-                'green'
-            )
-
+            if (keyboard.is_pressed('ArrowUp'))    attempt_move(player,make_point(0,-1))
+            if (keyboard.is_pressed('ArrowDown'))  attempt_move(player,make_point(0,+1))
+            if (keyboard.is_pressed('ArrowLeft'))  attempt_move(player, make_point(-1,0))
+            if (keyboard.is_pressed('ArrowRight')) attempt_move(player,make_point(+1,0))
         }
-    }
 
-    function game_loop() {
-        check_input()
-        surface.clear()
-        let layers = [STATE.ROOM, STATE.PLAYER, STATE.OVERLAY]
-        layers.forEach(layer => layer.draw(surface))
-        requestAnimationFrame(game_loop)
-    }
-    function start_game_loop() {
-        requestAnimationFrame(game_loop)
-    }
-    async function setup() {
-        await make_canvas()
-        DATA = await fetch("./config.json").then(res => res.json())
-        surface.tilegroups = DATA.tilegroups
-        surface.data = DATA
-        console.log("got the data",surface.data)
-        // log("settings",DATA.settings)
-        STATE.roomid = DATA.settings.startMapId
-        //STATE.roomid = 'bedroom'
-        await load_images()
-        await load_room(STATE, STATE.roomid)
-        await setup_player()
-        player_enter_room(STATE.PLAYER, STATE.ROOM)
+        class DebugOverlay {
+            draw(surf) {
+                surf.ctx.fillStyle = 'cyan'
+                surf.ctx.fillRect(0, 0, 100, 30)
+                surf.ctx.fillStyle = 'black'
+                surf.ctx.fillText(`scroll ${STATE.scroll.x} , ${STATE.scroll.y}`, 2, 10)
+                surf.ctx.fillText(`player center ${STATE.PLAYER.center.x} , ${STATE.PLAYER.center.y}`, 2, 20)
+                surf.ctx.fillText(`player offset ${STATE.PLAYER.offset.x} , ${STATE.PLAYER.offset.y}`, 2, 30)
 
-        await keyboard.setup_input()
+                // draw location of player
+                let player = STATE.PLAYER
+                surf.stroke_pixel_rect(
+                    player.center.x * surf.tile_width + STATE.scroll.x,
+                    player.center.y * surf.tile_height + STATE.scroll.y,
+                    surf.tile_width,
+                    surf.tile_height,
+                    'magenta',
+                )
 
-        STATE.OVERLAY = new DebugOverlay()
+                surf.stroke_pixel_rect(0, 0,
+                    surf.viewport.width_in_tiles * surf.tile_width,
+                    surf.viewport.height_in_tiles * surf.tile_height,
+                    'red'
+                )
 
-        start_game_loop()
-    }
-    setup().then(()=>{
-        console.log("done")
-    })
-</script>
+                surf.stroke_pixel_rect(
+                    test_tile.x * surf.tile_width + STATE.scroll.x,
+                    test_tile.y * surf.tile_height + STATE.scroll.y,
+                    surf.tile_width,
+                    surf.tile_height,
+                    'green'
+                )
+
+            }
+        }
+
+        function game_loop() {
+            check_input()
+            surface.clear()
+            let layers = [STATE.ROOM, STATE.PLAYER, STATE.OVERLAY]
+            layers.forEach(layer => layer.draw(surface))
+            requestAnimationFrame(game_loop)
+        }
+        function start_game_loop() {
+            requestAnimationFrame(game_loop)
+        }
+        async function setup() {
+            await make_canvas()
+            DATA = await fetch("./config.json").then(res => res.json())
+            surface.tilegroups = DATA.tilegroups
+            surface.data = DATA
+            console.log("got the data", surface.data)
+            // log("settings",DATA.settings)
+            STATE.roomid = DATA.settings.startMapId
+            //STATE.roomid = 'bedroom'
+            await load_images()
+            await load_room(STATE, STATE.roomid)
+            await setup_player()
+            player_enter_room(STATE.PLAYER, STATE.ROOM)
+
+            await keyboard.setup_input()
+
+            STATE.OVERLAY = new DebugOverlay()
+
+            start_game_loop()
+        }
+        setup().then(() => {
+            console.log("done")
+        })
+    </script>
 </body>
+
 </html>
