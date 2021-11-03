@@ -94,6 +94,7 @@
             STATE.set_data(DATA)
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
+            STATE.set_asset_manager(assets)
             STATE.set_current_room(await assets.load_room(DATA.settings.startMapId))
 
             surface = new Surface(STATE,assets,DATA)

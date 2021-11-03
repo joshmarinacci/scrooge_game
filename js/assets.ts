@@ -2,6 +2,10 @@ import {Room} from "./room.js"
 const log = (...args) => console.log(...args)
 
 export class AssetManager {
+    private data: any;
+    private images: {};
+    private state: any;
+    private rooms: {};
     constructor(data,state) {
         this.data = data
         this.images = {}

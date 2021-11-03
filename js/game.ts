@@ -2,6 +2,7 @@ import {make_point, Point} from "./util.js";
 import {Player} from "./player.js";
 import {DialogOverlay} from "./drawing.js";
 import {Keyboard} from "./keyboard.js";
+import {AssetManager} from "./assets";
 
 type Mode = "map" | "dialog"
 
@@ -15,6 +16,7 @@ export class GameState {
     public dialog: DialogOverlay
     public keyboard: Keyboard
     mode:Mode
+    private assets: AssetManager;
 
     constructor() {
         this.scroll = make_point(0, 0)
@@ -61,5 +63,17 @@ export class GameState {
 
     get_scroll() {
         return this.scroll
+    }
+
+    lookup_person(person_id:string) {
+        return this.data.people.find(p => p.id === person_id)
+    }
+
+    lookup_image(image) {
+        return this.assets.lookup_image(image)
+    }
+
+    set_asset_manager(assets: AssetManager) {
+        this.assets = assets
     }
 }

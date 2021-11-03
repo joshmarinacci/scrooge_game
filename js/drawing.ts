@@ -184,6 +184,16 @@ export class DialogOverlay extends SceneObject {
             if(!this.state.keyboard.is_pressed('Space')) {
                 this.dfa = 0
                 this.count++
+                console.log('dialog chunk is', this.action.dialog)
+                let phrase = this.action.dialog[this.count]
+                console.log("phrase",phrase)
+                let person = this.state.lookup_person(phrase.person)
+                console.log("person",person)
+                console.log("title is",person.title)
+                let image = this.state.lookup_image(person.image)
+                console.log("image is",image)
+                console.log("postion is",person.center)
+
                 if(this.count >= this.action.dialog.length) {
                     console.log('we are at the end of the dailog')
                     this.fire("end",{})
@@ -193,23 +203,39 @@ export class DialogOverlay extends SceneObject {
         }
     }
     draw(surf) {
-        if(!this.visible) return
+        if (!this.visible) return
         let w = 400
         let h = 200
-        let xoff = (surf.canvas.width - w)/2
-        let yoff = (surf.canvas.height -h)/2
+        let xoff = (surf.canvas.width - w) / 2
+        let yoff = (surf.canvas.height - h) / 2
 
         // fill bg
         surf.ctx.fillStyle = 'red'
         surf.ctx.fillRect(xoff, yoff, w, h)
         surf.ctx.fillStyle = 'white'
-        surf.ctx.fillRect(xoff+2, yoff+2, w-4, h-4)
+        surf.ctx.fillRect(xoff + 2, yoff + 2, w - 4, h - 4)
+
+        let phrase = this.action.dialog[this.count]
+
+        //draw image
+        let person = this.state.lookup_person(phrase.person)
+        // console.log("title is",person.title)
+        // let image = this.state.lookup_image(person.image)
+        // console.log("image is",image)
+        // console.log("postion is",person.center)
 
         surf.ctx.fillStyle = 'black'
-        let phrase = this.action.dialog[this.count]
         surf.ctx.font = '16pt sans-serif'
-        surf.ctx.fillText(phrase.person, xoff+10, yoff+10)
-        surf.ctx.fillText(phrase.text, xoff+10, yoff+30)
+        surf.ctx.fillText(person.title, xoff + 10, yoff + 10)
+        surf.ctx.fillText(phrase.text, xoff + 10, yoff + 30)
+
+        surf.ctx.fillStyle = 'black'
+        surf.ctx.fillRect(xoff + 4, yoff + 4, 64+8, 64+8)
+        surf.ctx.fillStyle = 'white'
+        surf.ctx.fillRect(xoff + 8, yoff + 8, 64+4, 64+4)
+        let off = new Point(xoff/surf.scale+1,yoff/surf.scale+1)
+        let pos = new Point(0,0)
+        surf.draw_tile(pos, off, person.center, person.image)
     }
 
     set_action(action) {
