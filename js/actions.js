@@ -91,17 +91,6 @@ export class ActionManager {
 
     perform_script(action, room) {
         this.log("doing script action",action,room)
-        // let ctx = {
-        //     item: function (id) {
-        //         let item = room.lookup_item(id)
-        //         let item_wrapper = {
-        //             hide() {
-        //                 item.settings.visible.value = false
-        //             }
-        //         }
-        //         return item_wrapper
-        //     }
-        // }
         let items = {
 
         }
@@ -120,10 +109,15 @@ export class ActionManager {
                 log("getting item",name)
                 let item = room.lookup_item(name)
                 if(!item) console.error(`Warning. Item "${name}" not found!`)
+                log("found item",item)
                 let item_wrapper = {
                     hide() {
                         log("hiding item",item)
                         item.settings.visible.value = false
+                    },
+                    unlock() {
+                        log("unlocking item",item)
+                        item.settings.locked.value = false
                     }
                 }
                 return item_wrapper

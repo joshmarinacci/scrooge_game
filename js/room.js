@@ -2,7 +2,8 @@
 export class Room {
     constructor(data) {
         this.data = data
-        this.draw_blocking = false
+        this.draw_blocking = true
+        this.draw_items = true
     }
     log(...args) {
         console.log("Room", ...args)
@@ -79,6 +80,16 @@ export class Room {
                 let y = info.y
                 let item_def = this.lookup_master_item(surf,info)
                 surf.draw_tile({ x, y }, { x: 0, y: 0 }, item_def.center, item_def.image)
+                if(this.draw_items) {
+                    // console.log('drawing ',info.settings.id.value)
+                    if(info.settings.id) {
+                        surf.debug_text({x,y},{x:2,y:2},info.settings.id.value)
+                    }
+                    if(info.settings.lockable) {
+                        surf.debug_text({x,y},{x:2, y:10+2},
+                            `locked: ${info.settings.locked.value}`)
+                    }
+                }
             })
         }
         if (layer.type === 'drawn') {

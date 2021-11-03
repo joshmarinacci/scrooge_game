@@ -86,6 +86,17 @@ export class Surface {
         let dh = this.tile_height * this.scale
         this.ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
     }
+    debug_text(position, offset, text) {
+        let h = 20
+        let dx = (position.x * this.tile_width + offset.x)*this.scale
+        let dy = (position.y * this.tile_height + offset.y)*this.scale
+        this.ctx.fillStyle = 'white'
+        this.ctx.fillRect(dx,dy,50,h)
+        this.ctx.fillStyle = 'black'
+        this.ctx.font = `${h}px sans-serif`
+        this.ctx.fillText(text,dx,dy+15)
+    }
+
     stroke_pixel_rect(x, y, w, h, color) {
         this.ctx.strokeStyle = color
         this.ctx.strokeRect(
