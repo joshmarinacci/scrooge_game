@@ -1,5 +1,10 @@
+import {Rect} from "./util.js";
+import {Surface} from "./drawing";
 
 export class Room {
+    private data: any;
+    private draw_blocking: boolean;
+    private draw_items: boolean;
     constructor(data) {
         this.data = data
         this.draw_blocking = true
@@ -67,7 +72,7 @@ export class Room {
         let tg = surf.data.objectgroups[group]
         return tg.objects.find(o => o.name == itemid)
     }
-    drawLayer(surf, layer) {
+    drawLayer(surf:Surface, layer) {
         if (layer.visible == false) return
         if (layer.type === 'item') {
             layer.data.forEach((info, n) => {
@@ -81,13 +86,12 @@ export class Room {
                 let item_def = this.lookup_master_item(surf,info)
                 surf.draw_tile({ x, y }, { x: 0, y: 0 }, item_def.center, item_def.image)
                 if(this.draw_items) {
-                    // console.log('drawing ',info.settings.id.value)
                     if(info.settings.id) {
-                        surf.debug_text({x,y},{x:2,y:2},info.settings.id.value)
+                        surf.debug_text({x,y},{x:0,y:0},info.settings.id.value)
                     }
                     if(info.settings.lockable) {
-                        surf.debug_text({x,y},{x:2, y:10+2},
-                            `locked: ${info.settings.locked.value}`)
+                        surf.debug_text({x,y},{x:0, y:5},
+                            `lckd? ${info.settings.locked.value}`)
                     }
                 }
             })
@@ -100,13 +104,11 @@ export class Room {
                 let tile = this.lookup_master_tile(surf,info)
                 surf.draw_tile({ x, y }, { x: 0, y: 0 }, tile.center, tile.image)
                 if(tile.blocking && this.draw_blocking) {
-                    surf.ctx.strokeStyle = 'red'
-                    surf.ctx.strokeRect(
-                        x * surf.tile_width * surf.scale,
-                        y * surf.tile_height * surf.scale,
-                        surf.tile_width * surf.scale,
-                        surf.tile_height * surf.scale
-                    )
+                    let r = new Rect(x,y,1,1).multiplyScalar(surf.tile_width).inset(1)
+                    r = r.multiplyScalar(surf.scale)
+                    surf.stroke_rect(r,'black')
+                    surf.stroke_rect(r.inset(1),'white')
+                    surf.stroke_rect(r.inset(2),'red')
                 }
             })
         }

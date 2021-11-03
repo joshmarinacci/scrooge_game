@@ -1,4 +1,5 @@
 import {GameState} from "./game.js";
+import {Point, Rect} from "./util.js";
 
 class SceneObject {
     private listeners: Map<string, [any]>;
@@ -38,9 +39,9 @@ export class Surface {
     private tilegroups: any;
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-    private tile_width: number;
+    tile_width: number;
     private tile_height: number;
-    private scale: number;
+    scale: number;
     private state: GameState;
     private assets: any;
     private tile_groups: any[];
@@ -87,7 +88,7 @@ export class Surface {
         this.ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
     }
     debug_text(position, offset, text) {
-        let h = 20
+        let h = 15
         let dx = (position.x * this.tile_width + offset.x)*this.scale
         let dy = (position.y * this.tile_height + offset.y)*this.scale
         this.ctx.fillStyle = 'white'
@@ -104,6 +105,16 @@ export class Surface {
             y * this.scale,
             w * this.scale,
             h * this.scale,
+        )
+    }
+
+    stroke_rect(r: Rect, color: string) {
+        this.ctx.strokeStyle = color
+        this.ctx.strokeRect(
+            r.pos.x,
+            r.pos.y,
+            r.size.x,
+            r.size.y,
         )
     }
 }
