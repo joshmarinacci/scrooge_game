@@ -26,12 +26,12 @@ export class AssetManager {
     async load_room(roomid) {
         let room_info = this.data.maps[roomid]
         let room_data = await fetch(`./maps/${room_info.path}`).then(res => res.json())
-        console.log("room data is",room_data)
+        // console.log("room data is",room_data)
         room_data.layers.forEach(layer => {
             if(layer.type === 'item') {
-                log("item layer",layer)
+                // log("item layer",layer)
                 layer.data.forEach(item => {
-                    log("item is",item)
+                    // log("item is",item)
                 })
             }
         })

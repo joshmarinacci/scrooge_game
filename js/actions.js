@@ -17,22 +17,7 @@ export class ActionManager {
         }
         if (action.type === 'script') {
             this.log('doing script action')
-            let ctx = {
-                item: function (id) {
-                    // this.log("looking up item", id)
-                    let item = room.lookup_item(id)
-                    // this.log("the item is", item)
-                    let item_wrapper = {
-                        hide() {
-                            // log("hiding", item)
-                            item.settings.visible.value = false
-                        }
-                    }
-                    return item_wrapper
-                }
-            }
-            ctx.item('voice').hide()
-            this.state.keyboard.start()
+            this.perform_script(action,room)
         }
         if (action.type === 'gotoroom') {
             this.log("going to a new room", action.gotoroom)
@@ -102,6 +87,112 @@ export class ActionManager {
                 }, 0)
             }
         })
+    }
+
+    perform_script(action, room) {
+        this.log("doing script action",action,room)
+        // let ctx = {
+        //     item: function (id) {
+        //         let item = room.lookup_item(id)
+        //         let item_wrapper = {
+        //             hide() {
+        //                 item.settings.visible.value = false
+        //             }
+        //         }
+        //         return item_wrapper
+        //     }
+        // }
+        let items = {
+
+        }
+        function log(...args) {
+            console.log("SCRIPT",...args)
+        }
+        const ctx = {
+            setState(state) {
+                // return engine.setState(state)
+            },
+            getState(name) {
+                // return engine.getState(name)
+            },
+            // state: engine.state,
+            item(name) {
+                log("getting item",name)
+                let item = room.lookup_item(name)
+                if(!item) console.error(`Warning. Item "${name}" not found!`)
+                let item_wrapper = {
+                    hide() {
+                        log("hiding item",item)
+                        item.settings.visible.value = false
+                    }
+                }
+                return item_wrapper
+            },
+            action(name) {
+                // var act = this.map.findActionByID(name)
+                // if(!act) console.log(`WARNING. Action "${name}" not found.`)
+                // return act;
+            },
+            dialog(name,opts) {
+                // engine.performDialogAction(this.action(name),opts)
+            },
+            hasItem(name) {
+                // return engine.playerHasItem(name)
+            },
+            receiveItem(name) {
+                // engine.receiveItem(name)
+            },
+            customDialog(lines, speaker) {
+                // return engine.performCustomDialog(lines, speaker)
+            },
+            customBattle(enemy, dramaticDefeat, music) {
+                // return engine.startCustomBattle(enemy,dramaticDefeat, music)
+            },
+            run(action) {
+                // engine.runAction(action)
+            },
+            restoreHP() {
+                // engine.restorePlayerHP()
+            },
+            pushScreen(name) {
+                // const scr = engine.nav.lookupScreen(name);
+                // engine.nav.pushScreen(scr)
+            },
+            playMusic(name) {
+                // const music = TileManager.getMusic(name);
+                // engine.nav.playMusic(music.path)
+            },
+            animate(opts) {
+                // return engine.animate(opts)
+            },
+            // map: engine.map,
+            // engine: engine,
+            // nav: engine.nav,
+            // BattleCalcs:BattleCalcs,
+            // layer(id) {
+            //     return this.map.layers.find((layer)=>layer.id===id)
+            // },
+            // makeTimeline() {
+            //     const timeline= new Timeline()
+            //     engine.animations.push(timeline)
+            //     return timeline
+            // }
+
+        }
+
+        // ctx.item('voice').hide()
+        this.state.keyboard.start()
+
+
+        // const engine = this
+        // const ctx = makeContext(engine)
+        function doit(ctx) {
+            console.log("evaluating",action.script)
+            eval(action.script.code);
+        }
+        doit(ctx);
+        return true
+
     }
 }
 

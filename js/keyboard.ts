@@ -9,7 +9,7 @@ export class Keyboard {
         document.addEventListener('keydown', (e) => {
             if(!this.enabled) return
             this.keyboard[e.code] = true
-            console.log("key down is",e)
+            // console.log("key down is",e)
         })
         document.addEventListener('keyup', (e) => {
             if(!this.enabled) return

@@ -109,6 +109,7 @@ export class DebugOverlay {
         surf.ctx.fillStyle = 'cyan'
         surf.ctx.fillRect(0, 0, 100, 30)
         surf.ctx.fillStyle = 'black'
+        surf.ctx.font = '10pt sans-serif'
         surf.ctx.fillText(`scroll ${scroll.x} , ${scroll.y}`, 2, 10)
         surf.ctx.fillText(`player center ${player.center.x} , ${player.center.y}`, 2, 20)
         surf.ctx.fillText(`player offset ${player.offset.x} , ${player.offset.y}`, 2, 30)
@@ -171,7 +172,6 @@ export class DialogOverlay extends SceneObject {
     }
     draw(surf) {
         if(!this.visible) return
-        console.log(this.count)
         let w = 400
         let h = 200
         let xoff = (surf.canvas.width - w)/2
