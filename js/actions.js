@@ -22,16 +22,16 @@ export class ActionManager {
         if (action.type === 'gotoroom') {
             this.log("going to a new room", action.gotoroom)
             this.state.keyboard.stop()
-            let n = this.room_layer.indexOf(this.state.ROOM)
+            let n = this.room_layer.indexOf(this.state.get_current_room())
             this.room_layer.splice(n, 1)
             this.log("now room layers are", this.room_layer.length)
             this.assets.load_room('pearlygates').then((room) => {
-                this.log("room loaded", room)
-                this.state.ROOM = room
-                this.room_layer.push(this.state.ROOM)
-                let start = new Point(room.data.start).add(new Point(action.gotoroom.dx, action.gotoroom.dy))
-                this.log('starting at', start)
-                this.state.PLAYER.center = new Point(action.gotoroom.dx, action.gotoroom.dy)
+                // this.log("room loaded", room)
+                this.state.set_current_room(room)
+                this.room_layer.push(this.state.get_current_room())
+                let reference_item = room.lookup_item(action.gotoroom.item)
+                let start = new Point(reference_item).add(new Point(action.gotoroom.dx, action.gotoroom.dy))
+                this.state.get_player().set_center(start)
                 this.recenter_room_around_player()
                 this.state.keyboard.start()
             })
@@ -55,8 +55,8 @@ export class ActionManager {
 
     recenter_room_around_player() {
         let player = this.state.get_player()
-        console.log("player is at",player.center)
-        console.log("screne is", this.surface.viewport.width_in_tiles)
+        // console.log("player is at",player.center, player.offset)
+        // console.log("screne is", this.surface.viewport.width_in_tiles)
         let pt = new Point(
             (player.center.x - this.surface.viewport.width_in_tiles/2) * (-16),
             (player.center.y - this.surface.viewport.height_in_tiles/2) * (-16)

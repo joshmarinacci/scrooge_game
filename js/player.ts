@@ -14,6 +14,7 @@ export class Player {
     }
     set_center(pt:Point) {
         this.center = pt
+        this.offset = new Point(0,0)
     }
     normalize() {
         if (this.offset.x <= -16) {
