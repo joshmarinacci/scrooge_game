@@ -29,6 +29,8 @@ export class ActionManager {
                 this.state.set_current_room(room)
                 this.room_layer.push(this.state.get_current_room())
                 let reference_item = room.lookup_item(action.gotoroom.item)
+                this.log("looked up the item",action.gotoroom.item,'as',reference_item)
+                if(!reference_item) throw new Error(`could not find item for ${action.gotoroom.item}`)
                 let start = new Point(reference_item).add(new Point(action.gotoroom.dx, action.gotoroom.dy))
                 this.state.get_player().set_center(start)
                 this.recenter_room_around_player()
@@ -162,6 +164,12 @@ export class ActionManager {
             animate(opts) {
                 // return engine.animate(opts)
             },
+            set_player_image(image_id) {
+                log("seting the player image to",image_id)
+            },
+            log(...args){
+                log(...args)
+            }
             // map: engine.map,
             // engine: engine,
             // nav: engine.nav,
