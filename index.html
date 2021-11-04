@@ -44,15 +44,16 @@
         function attempt_move(player,offset) {
             STATE.test_tile = player.center.add(offset)
             let infos = STATE.get_current_room().tile_info_at_pixel(surface, STATE.test_tile)
+
+
+            for (let info of infos) {
+                if (info.type === 'item' && is_item_visible(info)) {
+                    STATE.dispatch_event({type:'use-item',info:info, room:STATE.get_current_room()})
+                    return
+                }
+            }
             for (let info of infos) {
                 if (info.type === 'tile' && info.blocking) return
-                if (info.type === 'item') {
-                    if(is_item_visible(info)) {
-                        log("blocked by an item",info)
-                        STATE.dispatch_event({type:'use-item',info:info, room:STATE.get_current_room()})
-                        return
-                    }
-                }
             }
             player.offset_by(offset)
             player.normalize()
@@ -89,13 +90,31 @@
         function start_game_loop() {
             requestAnimationFrame(game_loop)
         }
+
+        function parse_url(search, data) {
+            if(search.startsWith('?')) search = search.substring(1)
+            let settings = {}
+            search.split("&").map(kp => {
+                let [key,value] = kp.split("=")
+                settings[key]= value
+            })
+            if((!settings.map) || (!data.maps[settings.map])) {
+                console.error(`map not found: "${settings.map}"`)
+                settings.map = data.settings.startMapId
+            }
+            return settings
+        }
+
         async function setup() {
             DATA = await fetch("./config.json").then(res => res.json())
             STATE.set_data(DATA)
+
+            let settings = parse_url(document.location.search,DATA)
+
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
             STATE.set_asset_manager(assets)
-            STATE.set_current_room(await assets.load_room(DATA.settings.startMapId))
+            STATE.set_current_room(await assets.load_room(settings.map))
 
             surface = new Surface(STATE,assets,DATA)
             STATE.set_player(new Player(DATA.people.find(p => p.id === "user")))

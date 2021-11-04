@@ -123,7 +123,6 @@ export class Room {
         for(let layer of this.data.layers) {
             if(layer.type === 'item') {
                 for(let info of layer.data) {
-                    console.log("item in layer is",info)
                     if(info.settings.id.value === itemid) {
                         return info
                     }

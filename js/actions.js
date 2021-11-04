@@ -20,13 +20,12 @@ export class ActionManager {
             this.perform_script(action,room)
         }
         if (action.type === 'gotoroom') {
-            this.log("going to a new room", action.gotoroom)
+            this.log("going to a new room", action.gotoroom, action.gotoroom.map)
             this.state.keyboard.stop()
             let n = this.room_layer.indexOf(this.state.get_current_room())
             this.room_layer.splice(n, 1)
-            this.log("now room layers are", this.room_layer.length)
-            this.assets.load_room('pearlygates').then((room) => {
-                // this.log("room loaded", room)
+            this.assets.load_room(action.gotoroom.map).then((room) => {
+                this.log("room loaded", room)
                 this.state.set_current_room(room)
                 this.room_layer.push(this.state.get_current_room())
                 let reference_item = room.lookup_item(action.gotoroom.item)
