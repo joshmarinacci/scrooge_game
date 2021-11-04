@@ -107,7 +107,7 @@
             "type": "gotoroom",
             "gotoroom": {
                 "map": "bedroom",
-                "item": "scrooge",
+                "item": "scrooge2",
                 "dx": 0,
                 "dy": 3
             },
