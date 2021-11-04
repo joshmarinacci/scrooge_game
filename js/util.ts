@@ -48,11 +48,32 @@ export class Rect {
         )
     }
 
+    add(pt:Point) {
+        return new Rect(this.pos.add(pt),this.size)
+    }
+
     inset(number: number) {
         let off = new Point(number,number)
         return new Rect(
             this.pos.add(off),
             this.size.subtract(off).subtract(off)
         )
+    }
+    left() {
+        return this.pos.x
+    }
+    right() {
+        return this.pos.x + this.size.x
+    }
+    top() {
+        return this.pos.y
+    }
+
+    bottom() {
+        return this.pos.y + this.size.y
+    }
+
+    width() {
+        return this.size.x
     }
 }

@@ -38,7 +38,7 @@ export class Surface {
     private data: any;
     private tilegroups: any;
     private canvas: HTMLCanvasElement;
-    private ctx: CanvasRenderingContext2D;
+    ctx: CanvasRenderingContext2D;
     tile_width: number;
     private tile_height: number;
     scale: number;
@@ -117,6 +117,16 @@ export class Surface {
             r.size.y,
         )
     }
+
+    fill_rect(r:Rect, color:string) {
+        this.ctx.fillStyle = color
+        this.ctx.fillRect(
+            r.pos.x,
+            r.pos.y,
+            r.size.x,
+            r.size.y,
+        )
+    }
 }
 
 
@@ -184,16 +194,6 @@ export class DialogOverlay extends SceneObject {
             if(!this.state.keyboard.is_pressed('Space')) {
                 this.dfa = 0
                 this.count++
-                console.log('dialog chunk is', this.action.dialog)
-                let phrase = this.action.dialog[this.count]
-                console.log("phrase",phrase)
-                let person = this.state.lookup_person(phrase.person)
-                console.log("person",person)
-                console.log("title is",person.title)
-                let image = this.state.lookup_image(person.image)
-                console.log("image is",image)
-                console.log("postion is",person.center)
-
                 if(this.count >= this.action.dialog.length) {
                     console.log('we are at the end of the dailog')
                     this.fire("end",{})
@@ -218,24 +218,26 @@ export class DialogOverlay extends SceneObject {
         let phrase = this.action.dialog[this.count]
 
         //draw image
-        let person = this.state.lookup_person(phrase.person)
-        // console.log("title is",person.title)
-        // let image = this.state.lookup_image(person.image)
-        // console.log("image is",image)
-        // console.log("postion is",person.center)
 
-        surf.ctx.fillStyle = 'black'
-        surf.ctx.font = '16pt sans-serif'
-        surf.ctx.fillText(person.title, xoff + 10, yoff + 10)
-        surf.ctx.fillText(phrase.text, xoff + 10, yoff + 30)
 
-        surf.ctx.fillStyle = 'black'
-        surf.ctx.fillRect(xoff + 4, yoff + 4, 64+8, 64+8)
-        surf.ctx.fillStyle = 'white'
-        surf.ctx.fillRect(xoff + 8, yoff + 8, 64+4, 64+4)
-        let off = new Point(xoff/surf.scale+1,yoff/surf.scale+1)
+        let r = new Rect(xoff,yoff,64+16,64+16)
+        r = r.add(new Point(8,8))
+        surf.fill_rect(r,'black')
+        surf.fill_rect(r.inset(surf.scale),'white')
+        let off = new Point(xoff/surf.scale+4,yoff/surf.scale+4)
         let pos = new Point(0,0)
-        surf.draw_tile(pos, off, person.center, person.image)
+
+        surf.ctx.fillStyle = 'black'
+        surf.ctx.font = '25px sans-serif'
+
+        let person = this.state.lookup_person(phrase.person)
+        if(person) {
+            surf.draw_tile(pos, off, person.center, person.image)
+            surf.ctx.fillText(person.title, r.left(), r.bottom() + 30)
+        }
+
+        let bounds = new Rect(r.right()+10,r.top(),300,100)
+        this.draw_wrapped_text(surf,phrase.text,bounds,25,'black')
     }
 
     set_action(action) {
@@ -244,4 +246,27 @@ export class DialogOverlay extends SceneObject {
         console.log("set dialog to",this.action)
     }
 
+    private draw_wrapped_text(surf:Surface, text: string, bounds: Rect, fontsize:number, color: string) {
+        let words = text.split(" ")
+        let lines = [];
+        let currentLine = words[0]
+        let maxWidth = bounds.width()
+        for(let i=1; i<words.length; i++) {
+            let word = words[i]
+            let width = surf.ctx.measureText(currentLine + " " + word).width
+            if (width < maxWidth) {
+                currentLine += " " + word
+            } else {
+                lines.push(currentLine)
+                currentLine = word
+            }
+        }
+        lines.push(currentLine)
+        surf.ctx.fillStyle = color
+        surf.ctx.font = `${fontsize}px sans-serif`
+        lines.forEach((line,i) => {
+            surf.ctx.fillText(line, bounds.pos.x, bounds.pos.y + (i*fontsize) +fontsize)
+        })
+        // surf.ctx.strokeRect(bounds.pos.x,bounds.pos.y,bounds.size.x,bounds.size.y)
+    }
 }
