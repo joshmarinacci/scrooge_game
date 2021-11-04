@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "local-dev": "http-server ."
+    "local-dev": "http-server .",
+    "validate": "npm run build && node js/validate.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.4.4",
-    "ga":"^0.0.2"
+    "@types/node": "^16.11.6",
+    "ga": "^0.0.2",
+    "pureimage": "^0.3.5",
+    "typescript": "^4.4.4"
   }
 }
