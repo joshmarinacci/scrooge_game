@@ -150,7 +150,7 @@
             "type": "script",
             "script": {
                 "trigger": "none",
-                "code": "ctx.item('exit').unlock();\nctx.engine.player.imageName = \"walking_chicken\";\nconsole.log(\"set it to\", ctx.engine);\nctx.setState({mogged:true});"
+                "code": "ctx.item('exit').unlock();\nctx.set_player_image(\"walking_chicken\");\nctx.log(\"set it to walking_chicken\");\nctx.setState({mogged:true});"
             },
             "visible": true,
             "next": null
