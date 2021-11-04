@@ -49,13 +49,21 @@ export class ActionManager {
         this.state.events.slice().forEach(evt => {
             this.log("event happened", evt)
             if (evt.type === 'use-item') {
-                let action = evt.room.lookup_action_for_item(evt.info.settings.id.value)
-                this.log("action",action)
-                if(action) this.perform_action(action, evt.room)
+                let actions = evt.room.lookup_action_for_item(evt.info.settings.id.value)
+                if(actions.length === 1) this.perform_action(actions[0],evt.room)
+                //if one of the actions is a script, do it first
+                if(actions.length > 1) {
+                    let scripts = actions.filter(act => act.type === 'script')
+                    if(scripts.length >= 1) this.perform_action(scripts[0],evt.room)
+                }
             }
             if (evt.type === 'next-action') {
                 let action = evt.room.lookup_action(evt.actionid)
                 this.perform_action(action, evt.room)
+            }
+            if (evt.type === 'jump-dialog') {
+                let action = evt.room.lookup_action(evt.dialog)
+                this.perform_action(action,evt.room)
             }
         })
         this.state.events = []
@@ -85,7 +93,7 @@ export class ActionManager {
 
 
     perform_dialog(action,room) {
-        this.log("doing the dialog", action.dialog)
+        // this.log("doing the dialog", action.dialog)
         this.state.set_mode("dialog")
         this.state.dialog.set_action(action)
         this.state.dialog.visible = true
@@ -109,11 +117,16 @@ export class ActionManager {
         function log(...args) {
             console.log("SCRIPT",...args)
         }
+        let STATE = this.state
         const ctx = {
             setState(state) {
+                log("setting state",state)
+                return STATE.set_script_state(state)
                 // return engine.setState(state)
             },
             getState(name) {
+                log("getting state for",name)
+                return STATE.get_script_state(name)
                 // return engine.getState(name)
             },
             // state: engine.state,
@@ -140,6 +153,10 @@ export class ActionManager {
                 // return act;
             },
             dialog(name,opts) {
+                log('go perform dialog',name)
+                setTimeout(() => {
+                    STATE.dispatch_event({ type: 'jump-dialog', dialog:name,  room: room })
+                }, 0)
                 // engine.performDialogAction(this.action(name),opts)
             },
             hasItem(name) {

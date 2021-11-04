@@ -162,7 +162,7 @@
             "type": "script",
             "script": {
                 "trigger": "item",
-                "code": "if(ctx.state.mogged === true) {\n   ctx.dialog('after');\n} else {\n   ctx.dialog('before');\n}"
+                "code": "if(ctx.getState('mogged') === true) {\n   ctx.dialog('after');\n} else {\n   ctx.dialog('before');\n}"
             },
             "visible": true,
             "next": null

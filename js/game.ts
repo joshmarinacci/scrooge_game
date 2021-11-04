@@ -17,12 +17,14 @@ export class GameState {
     public keyboard: Keyboard
     mode:Mode
     private assets: AssetManager;
+    private script_state:Map<string,any>
 
     constructor() {
         this.scroll = make_point(0, 0)
         this.events = []
         this.test_tile = make_point(0, 0)
         this.mode = "map"
+        this.script_state = new Map()
     }
 
     set_mode(mode:Mode) {
@@ -75,5 +77,15 @@ export class GameState {
 
     set_asset_manager(assets: AssetManager) {
         this.assets = assets
+    }
+
+    set_script_state(state) {
+        Object.keys(state).forEach(key => {
+            this.script_state.set(key,state[key])
+        })
+    }
+
+    get_script_state(name) {
+        return this.script_state.get(name)
     }
 }

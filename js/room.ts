@@ -113,8 +113,8 @@ export class Room {
             })
         }
     }
-    lookup_action_for_item(itemid) {
-        return this.data.actions.find(act => act.itemid == itemid)
+    lookup_action_for_item(itemid):any[] {
+        return this.data.actions.filter(act => act.itemid == itemid)
     }
     lookup_action(actionid) {
         return this.data.actions.find(act => act.id === actionid)
