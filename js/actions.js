@@ -63,10 +63,14 @@ export class ActionManager {
         this.state.set_scroll(pt)
     }
 
-    player_enter_room(player, room) {
-        this.log("player goes to room", player, room.data.start)
+    player_enter_room(player, room, settings) {
+        this.log("player goes to room", player, room.data.start,settings)
         player.x = room.data.start.x
         player.y = room.data.start.y
+        if(settings && settings.px) {
+            let pt = new Point(settings.px,settings.py)
+            player.set_center(pt)
+        }
         this.recenter_room_around_player()
     }
 

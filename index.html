@@ -91,17 +91,39 @@
             requestAnimationFrame(game_loop)
         }
 
+        function parseBoolean(debug) {
+            if(typeof debug === 'string') {
+                if(debug.toLowerCase() === 'true') return true
+                if(debug.toLowerCase() === 'false') return false
+            }
+            return false
+        }
+
         function parse_url(search, data) {
             if(search.startsWith('?')) search = search.substring(1)
             let settings = {}
-            search.split("&").map(kp => {
+            search.split("&")
+                .filter(s => s && s.indexOf('=')>0)
+                .map(kp => {
+                console.log("kp is",kp)
                 let [key,value] = kp.split("=")
                 settings[key]= value
             })
+            if(settings.hasOwnProperty('debug')) {
+                settings.debug = parseBoolean(settings.debug)
+            }
+            if(!settings.hasOwnProperty('debug')) {
+                settings.debug = false
+            }
+
+            if(settings.hasOwnProperty('px')) settings.px = parseInt(settings.px)
+            if(settings.hasOwnProperty('py')) settings.py = parseInt(settings.py)
+
             if((!settings.map) || (!data.maps[settings.map])) {
                 console.error(`map not found: "${settings.map}"`)
                 settings.map = data.settings.startMapId
             }
+            console.log("final settings are",settings)
             return settings
         }
 
@@ -130,7 +152,7 @@
             layers.push(new DebugOverlay(STATE))
 
             actions = new ActionManager(STATE,room_layer,assets, surface)
-            actions.player_enter_room(STATE.get_player(), STATE.get_current_room())
+            actions.player_enter_room(STATE.get_player(), STATE.get_current_room(), settings)
             start_game_loop()
         }
         setup().then(() => {
