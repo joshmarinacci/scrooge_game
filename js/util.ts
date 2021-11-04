@@ -1,7 +1,7 @@
 export class Point {
     x:number
     y:number
-    constructor(x,y) {
+    constructor(x:any,y?:any) {
         if(typeof x == 'number') {
             this.x = x
             this.y = y

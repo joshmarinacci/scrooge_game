@@ -1,6 +1,13 @@
 import {Point} from "./util.js"
+import {GameState} from "./game.js";
+import {AssetManager} from "./assets.js";
+import {Surface} from "./drawing.js";
 export class ActionManager {
-    constructor(state, room_layer, assets, surface) {
+    private state: GameState;
+    private room_layer: any[];
+    private assets: AssetManager;
+    private surface: Surface;
+    constructor(state:GameState, room_layer:any[], assets:AssetManager, surface:Surface) {
         this.state = state
         this.room_layer = room_layer
         this.assets = assets

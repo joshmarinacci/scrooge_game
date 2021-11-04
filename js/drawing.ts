@@ -45,7 +45,7 @@ export class Surface {
     private state: GameState;
     private assets: any;
     private tile_groups: any[];
-    private viewport: { width_in_tiles: number; height_in_tiles: number };
+    viewport: { width_in_tiles: number; height_in_tiles: number };
     constructor(STATE:GameState, assets,data) {
         this.data = data
         this.tilegroups = data.tilegroups
