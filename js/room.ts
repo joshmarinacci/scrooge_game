@@ -67,6 +67,9 @@ export class Room {
         return infos
     }
     lookup_master_item(surf,info) {
+        if(!info) return null
+        if(!info.master) return null
+        if(!info.master.group) return null
         let group = info.master.group
         let itemid = info.master.id
         let tg = surf.data.objectgroups[group]
@@ -84,7 +87,7 @@ export class Room {
                 let x = info.x
                 let y = info.y
                 let item_def = this.lookup_master_item(surf,info)
-                surf.draw_tile({ x, y }, { x: 0, y: 0 }, item_def.center, item_def.image)
+                if(item_def)  surf.draw_tile({ x, y }, { x: 0, y: 0 }, item_def.center, item_def.image)
                 if(this.draw_items) {
                     if(info.settings.id) {
                         surf.debug_text({x,y},{x:0,y:0},info.settings.id.value)

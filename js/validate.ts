@@ -87,6 +87,17 @@ async function check_maps(stats:Stats, data: any, cache:Cache) {
         if(map_info.id !== map.id) warn(`map has incorrect id ${map_info.id}`)
         if(!map.background) warn(`map is missing background field ${map_info.id}`)
         cache.maps.set(map.id,map)
+
+
+        //check that every item in item layers has an master info
+        map.layers.forEach(layer => {
+            if(layer.type === 'item') {
+                layer.data.forEach(item => {
+                    if(!item.master) warn(`map '${map_key}' item '${item.settings.id.value}' is missing a master tile`)
+                })
+            }
+        })
+
         map.actions.forEach(act => {
             stats.actions += 1
             if(act.type === 'script') {
