@@ -231,6 +231,12 @@ export class DialogOverlay extends SceneObject {
         surf.ctx.font = '25px sans-serif'
 
         let person = this.state.lookup_person(phrase.person)
+        if(phrase.person === 'item') {
+            //use image of the current item
+            let item = this.state.get_current_room().lookup_item(this.action.itemid)
+            person = this.state.get_current_room().lookup_master_item(surf,item)
+            if(!person) throw new Error(`missing master for item ${phrase.person}: ${this.action.itemid}`)
+        }
         if(person) {
             surf.draw_tile(pos, off, person.center, person.image)
             surf.ctx.fillText(person.title, r.left(), r.bottom() + 30)
