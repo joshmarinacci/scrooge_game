@@ -136,6 +136,7 @@ export class DebugOverlay {
         this.state = state
     }
     draw(surf) {
+        if(this.state.debug===false) return
         let player = this.state.get_player()
         let scroll = this.state.get_scroll()
         surf.ctx.fillStyle = 'cyan'
@@ -270,8 +271,9 @@ export class DialogOverlay extends SceneObject {
         lines.push(currentLine)
         surf.ctx.fillStyle = color
         surf.ctx.font = `${fontsize}px sans-serif`
+        let lineheight = fontsize*1.2
         lines.forEach((line,i) => {
-            surf.ctx.fillText(line, bounds.pos.x, bounds.pos.y + (i*fontsize) +fontsize)
+            surf.ctx.fillText(line, bounds.pos.x, bounds.pos.y + (i*lineheight) +fontsize)
         })
         // surf.ctx.strokeRect(bounds.pos.x,bounds.pos.y,bounds.size.x,bounds.size.y)
     }

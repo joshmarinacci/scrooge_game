@@ -9,8 +9,8 @@ export class Room {
     constructor(data) {
         this._type = "ROOM"
         this.data = data
-        this.draw_blocking = true
-        this.draw_items = true
+        this.draw_blocking = false
+        this.draw_items = false
     }
     log(...args) {
         console.log("Room", ...args)

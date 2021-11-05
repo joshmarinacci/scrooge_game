@@ -15,11 +15,13 @@ export class GameState {
     private player: Player;
     public dialog: DialogOverlay
     public keyboard: Keyboard
+    public debug:boolean
     mode:Mode
     private assets: AssetManager;
     private script_state:Map<string,any>
 
     constructor() {
+        this.debug = false
         this.scroll = make_point(0, 0)
         this.events = []
         this.test_tile = make_point(0, 0)

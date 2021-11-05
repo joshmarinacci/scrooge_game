@@ -97,6 +97,7 @@
             STATE.set_data(DATA)
 
             let settings = parse_url(document.location.search,DATA)
+            if(settings.debug === true) STATE.debug = true
 
             assets = new AssetManager(DATA,STATE)
             await assets.load_images()
