@@ -2,6 +2,7 @@ import {Point} from "./util.js"
 import {GameState} from "./game.js";
 import {AssetManager} from "./assets.js";
 import {Surface} from "./drawing.js";
+import {Room} from "./room.js";
 export class ActionManager {
     private state: GameState;
     private room_layer: any[];
@@ -17,7 +18,7 @@ export class ActionManager {
         console.log(...args)
     }
 
-    perform_action(action, room) {
+    perform_action(action, room:Room) {
         this.log("performing action", action)
         if (action.type === 'dialog') {
             this.perform_dialog(action,room)
@@ -35,12 +36,18 @@ export class ActionManager {
                 this.log("room loaded", room)
                 this.state.set_current_room(room)
                 this.room_layer.push(this.state.get_current_room())
+                //calculate the start point
                 let reference_item = room.lookup_item(action.gotoroom.item)
                 this.log("looked up the item",action.gotoroom.item,'as',reference_item)
                 if(!reference_item) throw new Error(`could not find item for ${action.gotoroom.item}`)
                 let start = new Point(reference_item).add(new Point(action.gotoroom.dx, action.gotoroom.dy))
                 this.state.get_player().set_center(start)
                 this.recenter_room_around_player()
+                //run startup scripts
+                room.lookup_startup_actions().forEach(cat => {
+                    this.perform_action(cat,room)
+                })
+
                 this.state.keyboard.start()
             })
         }
@@ -80,16 +87,6 @@ export class ActionManager {
         this.state.set_scroll(pt)
     }
 
-    player_enter_room(player, room, settings) {
-        this.log("player goes to room", player, room.data.start,settings)
-        player.x = room.data.start.x
-        player.y = room.data.start.y
-        if(settings && settings.px) {
-            let pt = new Point(settings.px,settings.py)
-            player.set_center(pt)
-        }
-        this.recenter_room_around_player()
-    }
 
 
     perform_dialog(action,room) {
@@ -138,6 +135,9 @@ export class ActionManager {
                 let item_wrapper = {
                     hide() {
                         log("hiding item",item)
+                        if(!item.settings.hasOwnProperty('visible')) {
+                            item.settings.visible = { name:'visible', value:true}
+                        }
                         item.settings.visible.value = false
                     },
                     unlock() {

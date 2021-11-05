@@ -4,7 +4,9 @@ export class Player {
     info:any
     center:Point
     offset:Point
+    _type:string
     constructor(info) {
+        this._type = "PLAYER"
         this.info = info
         this.center = new Point(4,7)
         this.offset = new Point(0,0)

@@ -1,11 +1,13 @@
-import {Rect} from "./util.js";
-import {Surface} from "./drawing";
+import {Point, Rect} from "./util.js";
+import {Surface} from "./drawing.js";
 
 export class Room {
     private data: any;
     private draw_blocking: boolean;
     private draw_items: boolean;
+    private _type:string
     constructor(data) {
+        this._type = "ROOM"
         this.data = data
         this.draw_blocking = true
         this.draw_items = true
@@ -133,4 +135,13 @@ export class Room {
             }
         }
     }
+
+    lookup_startup_actions():any[] {
+        return this.data.actions.filter(act => act.type === 'script' && act.script.trigger === 'mapstart')
+    }
+
+    get_start_point():Point {
+        return new Point(this.data.start)
+    }
+
 }

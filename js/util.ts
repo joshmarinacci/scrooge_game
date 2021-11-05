@@ -77,3 +77,47 @@ export class Rect {
         return this.size.x
     }
 }
+
+
+type Settings = {
+    debug:boolean
+    map:string,
+    _type:string,
+    px:number | null
+    py:number | null
+}
+function parseBoolean(debug) {
+    if(typeof debug === 'string') {
+        if(debug.toLowerCase() === 'true') return true
+        if(debug.toLowerCase() === 'false') return false
+    }
+    return false
+}
+
+export function parse_url(search, data) {
+    if(search.startsWith('?')) search = search.substring(1)
+    let settings:Settings = {
+        _type:"SETTINGS",
+        px: undefined,
+        py: undefined,
+        debug: false,
+        map:data.settings.startMapId
+    }
+    search.split("&")
+        .filter(s => s && s.indexOf('=')>0)
+        .map(kp => {
+            let [key,value] = kp.split("=")
+            if(key === 'debug') settings.debug = parseBoolean(value)
+            if(key === 'px') settings.px = parseInt(value)
+            if(key === 'py') settings.py = parseInt(value)
+            if(key === 'map') settings.map = value
+            settings[key]= value
+        })
+
+    if((!settings.map) || (!data.maps[settings.map])) {
+        console.error(`map not found: "${settings.map}"`)
+        settings.map = data.settings.startMapId
+    }
+    console.log("final settings are",settings)
+    return settings
+}

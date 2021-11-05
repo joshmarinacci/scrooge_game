@@ -17,7 +17,7 @@
     <script type="module">
         import { Keyboard } from "./js/keyboard.js"
         import { Player } from "./js/player.js"
-        import { make_point} from "./js/util.js"
+        import {make_point, parse_url, Point} from "./js/util.js"
         import { AssetManager} from "./js/assets.js"
         import {Surface, DebugOverlay, DialogOverlay} from "./js/drawing.js"
         import { ActionManager } from "./js/actions.js"
@@ -91,41 +91,6 @@
             requestAnimationFrame(game_loop)
         }
 
-        function parseBoolean(debug) {
-            if(typeof debug === 'string') {
-                if(debug.toLowerCase() === 'true') return true
-                if(debug.toLowerCase() === 'false') return false
-            }
-            return false
-        }
-
-        function parse_url(search, data) {
-            if(search.startsWith('?')) search = search.substring(1)
-            let settings = {}
-            search.split("&")
-                .filter(s => s && s.indexOf('=')>0)
-                .map(kp => {
-                console.log("kp is",kp)
-                let [key,value] = kp.split("=")
-                settings[key]= value
-            })
-            if(settings.hasOwnProperty('debug')) {
-                settings.debug = parseBoolean(settings.debug)
-            }
-            if(!settings.hasOwnProperty('debug')) {
-                settings.debug = false
-            }
-
-            if(settings.hasOwnProperty('px')) settings.px = parseInt(settings.px)
-            if(settings.hasOwnProperty('py')) settings.py = parseInt(settings.py)
-
-            if((!settings.map) || (!data.maps[settings.map])) {
-                console.error(`map not found: "${settings.map}"`)
-                settings.map = data.settings.startMapId
-            }
-            console.log("final settings are",settings)
-            return settings
-        }
 
         async function setup() {
             DATA = await fetch("./config.json").then(res => res.json())
@@ -152,7 +117,12 @@
             layers.push(new DebugOverlay(STATE))
 
             actions = new ActionManager(STATE,room_layer,assets, surface)
-            actions.player_enter_room(STATE.get_player(), STATE.get_current_room(), settings)
+            STATE.get_player().set_center(STATE.get_current_room().get_start_point())
+            if(settings && settings.px) {
+                let pt = new Point(settings.px,settings.py)
+                STATE.get_player().set_center(pt)
+            }
+            actions.recenter_room_around_player()
             start_game_loop()
         }
         setup().then(() => {
