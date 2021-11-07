@@ -44,6 +44,7 @@
         function attempt_move(player,offset) {
             STATE.test_tile = player.center.add(offset)
             let infos = STATE.get_current_room().tile_info_at_pixel(surface, STATE.test_tile)
+            player.set_direction(offset)
 
 
             for (let info of infos) {
@@ -105,7 +106,8 @@
             STATE.set_current_room(await assets.load_room(settings.map))
 
             surface = new Surface(STATE,assets,DATA)
-            STATE.set_player(new Player(DATA.people.find(p => p.id === "user")))
+            STATE.set_player(new Player(DATA.people.find(p => p.id === "user"), STATE))
+            STATE.get_player().set_image_name("player_anim")
             keyboard = new Keyboard()
             await keyboard.setup_input()
             STATE.keyboard = keyboard

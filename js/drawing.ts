@@ -74,7 +74,7 @@ export class Surface {
         this.ctx.fillStyle = color
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
-    draw_tile(position, offset, tile_center, imageid) {
+    draw_tile(position:Point, offset:Point, tile_center:Point, imageid:string, flip?:boolean) {
         //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
         let image = this.assets.lookup_image(imageid)
         let sx = tile_center.x * this.tile_width
@@ -85,7 +85,14 @@ export class Surface {
         let dy = (position.y * this.tile_height + offset.y) * this.scale
         let dw = this.tile_width * this.scale
         let dh = this.tile_height * this.scale
-        this.ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+        this.ctx.save()
+        this.ctx.translate(dx,dy)
+        if(flip) {
+            this.ctx.translate(dw,0)
+            this.ctx.scale(-1, 1)
+        }
+        this.ctx.drawImage(image, sx, sy, sw, sh, 0, 0, dw, dh)
+        this.ctx.restore()
     }
     debug_text(position, offset, text) {
         let h = 15
@@ -97,7 +104,6 @@ export class Surface {
         this.ctx.font = `${h}px sans-serif`
         this.ctx.fillText(text,dx,dy+15)
     }
-
     stroke_pixel_rect(x, y, w, h, color) {
         this.ctx.strokeStyle = color
         this.ctx.strokeRect(
@@ -107,7 +113,6 @@ export class Surface {
             h * this.scale,
         )
     }
-
     stroke_rect(r: Rect, color: string) {
         this.ctx.strokeStyle = color
         this.ctx.strokeRect(
@@ -117,7 +122,6 @@ export class Surface {
             r.size.y,
         )
     }
-
     fill_rect(r:Rect, color:string) {
         this.ctx.fillStyle = color
         this.ctx.fillRect(

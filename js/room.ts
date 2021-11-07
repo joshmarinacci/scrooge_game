@@ -89,7 +89,7 @@ export class Room {
                 let x = info.x
                 let y = info.y
                 let item_def = this.lookup_master_item(surf,info)
-                if(item_def)  surf.draw_tile({ x, y }, { x: 0, y: 0 }, item_def.center, item_def.image)
+                if(item_def)  surf.draw_tile(new Point(x,y),new Point(0,0), item_def.center, item_def.image)
                 if(this.draw_items) {
                     if(info.settings.id) {
                         surf.debug_text({x,y},{x:0,y:0},info.settings.id.value)
@@ -107,7 +107,7 @@ export class Room {
                 let x = n % layer.width
                 let y = Math.floor(n / layer.width)
                 let tile = this.lookup_master_tile(surf,info)
-                surf.draw_tile({ x, y }, { x: 0, y: 0 }, tile.center, tile.image)
+                surf.draw_tile(new Point(x,y), new Point(0,0), tile.center, tile.image)
                 if(tile.blocking && this.draw_blocking) {
                     let r = new Rect(x,y,1,1).multiplyScalar(surf.tile_width).inset(1)
                     r = r.multiplyScalar(surf.scale)
