@@ -190,6 +190,7 @@ export class ActionManager {
             },
             set_player_image(image_id) {
                 log("seting the player image to",image_id)
+                STATE.get_player().set_image_name(image_id)
             },
             log(...args){
                 log(...args)
