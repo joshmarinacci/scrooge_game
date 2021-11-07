@@ -76,6 +76,9 @@ export class Rect {
     width() {
         return this.size.x
     }
+    height() {
+        return this.size.y
+    }
 }
 
 

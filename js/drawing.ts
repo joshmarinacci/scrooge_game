@@ -50,21 +50,21 @@ export class Surface {
         this.data = data
         this.tilegroups = data.tilegroups
         this.canvas = document.createElement('canvas')
-        this.canvas.width = 700
-        this.canvas.height = 600
+        this.viewport = {
+            width_in_tiles: 16,
+            height_in_tiles: 10,
+        }
+        this.tile_width = 16
+        this.tile_height = 16
+        this.scale = 3
+        this.canvas.width = this.viewport.width_in_tiles*this.tile_width*this.scale
+        this.canvas.height = this.viewport.height_in_tiles*this.tile_height*this.scale
         document.body.appendChild(this.canvas)
         this.ctx = this.canvas.getContext('2d')
         this.ctx.imageSmoothingEnabled = false
-        this.tile_width = 16
-        this.tile_height = 16
-        this.scale = 4
         this.state = STATE
         this.assets = assets
         this.tile_groups = []
-        this.viewport = {
-            width_in_tiles: 8,
-            height_in_tiles: 8,
-        }
     }
     clear() {
         this.ctx.fillStyle = 'green'
@@ -74,7 +74,7 @@ export class Surface {
         this.ctx.fillStyle = color
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
-    draw_tile(position:Point, offset:Point, tile_center:Point, imageid:string, flip?:boolean) {
+     draw_tile(position:Point, offset:Point, tile_center:Point, imageid:string, flip?:boolean, scale:number=1) {
         //log('drawing a tile at ',center, 'from tile',info,'from image',imageid)
         let image = this.assets.lookup_image(imageid)
         let sx = tile_center.x * this.tile_width
@@ -87,6 +87,7 @@ export class Surface {
         let dh = this.tile_height * this.scale
         this.ctx.save()
         this.ctx.translate(dx,dy)
+        this.ctx.scale(scale,scale)
         if(flip) {
             this.ctx.translate(dw,0)
             this.ctx.scale(-1, 1)
@@ -209,27 +210,27 @@ export class DialogOverlay extends SceneObject {
     }
     draw(surf) {
         if (!this.visible) return
-        let w = 400
-        let h = 200
+        let w = 600
+        let h = 300
         let xoff = (surf.canvas.width - w) / 2
         let yoff = (surf.canvas.height - h) / 2
 
         // fill bg
-        surf.ctx.fillStyle = 'red'
-        surf.ctx.fillRect(xoff, yoff, w, h)
-        surf.ctx.fillStyle = 'white'
-        surf.ctx.fillRect(xoff + 2, yoff + 2, w - 4, h - 4)
+        let dialog_bounds = new Rect(xoff,yoff,w,h)
+        surf.fill_rect(dialog_bounds,'black')
+        surf.fill_rect(dialog_bounds.inset(surf.scale),'white')
 
         let phrase = this.action.dialog[this.count]
 
         //draw image
 
 
-        let r = new Rect(xoff,yoff,64+16,64+16)
-        r = r.add(new Point(8,8))
+        let gap = 16
+        let r = new Rect(xoff,yoff,8*16,8*16)
+        r = r.add(new Point(gap,gap))
         surf.fill_rect(r,'black')
         surf.fill_rect(r.inset(surf.scale),'white')
-        let off = new Point(xoff/surf.scale+4,yoff/surf.scale+4)
+        let off = new Point(xoff/surf.scale+10, yoff/surf.scale+10)
         let pos = new Point(0,0)
 
         surf.ctx.fillStyle = 'black'
@@ -240,15 +241,19 @@ export class DialogOverlay extends SceneObject {
             //use image of the current item
             let item = this.state.get_current_room().lookup_item(this.action.itemid)
             person = this.state.get_current_room().lookup_master_item(surf,item)
+            // console.log("person is item",item.settings.title.value)
+            person.title = item.settings.title.value
+            // person.title = item.name
             if(!person) throw new Error(`missing master for item ${phrase.person}: ${this.action.itemid}`)
         }
         if(person) {
-            surf.draw_tile(pos, off, person.center, person.image)
+            surf.draw_tile(pos, off, person.center, person.image,false,2)
             surf.ctx.fillText(person.title, r.left(), r.bottom() + 30)
         }
 
-        let bounds = new Rect(r.right()+10,r.top(),300,100)
-        this.draw_wrapped_text(surf,phrase.text,bounds,25,'black')
+        let text_bounds = new Rect(r.right()+gap,r.top(),dialog_bounds.width()-r.width()-gap-gap-gap,dialog_bounds.height()-gap-gap)
+        // surf.fill_rect(text_bounds,'yellow')
+        this.draw_wrapped_text(surf,phrase.text,text_bounds,30,'black')
     }
 
     set_action(action) {
@@ -258,6 +263,8 @@ export class DialogOverlay extends SceneObject {
     }
 
     private draw_wrapped_text(surf:Surface, text: string, bounds: Rect, fontsize:number, color: string) {
+        surf.ctx.fillStyle = color
+        surf.ctx.font = `${fontsize}px sans-serif`
         let words = text.split(" ")
         let lines = [];
         let currentLine = words[0]
@@ -273,8 +280,6 @@ export class DialogOverlay extends SceneObject {
             }
         }
         lines.push(currentLine)
-        surf.ctx.fillStyle = color
-        surf.ctx.font = `${fontsize}px sans-serif`
         let lineheight = fontsize*1.2
         lines.forEach((line,i) => {
             surf.ctx.fillText(line, bounds.pos.x, bounds.pos.y + (i*lineheight) +fontsize)
