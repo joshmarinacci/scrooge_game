@@ -107,10 +107,10 @@ export function parse_url(search, data) {
         .filter(s => s && s.indexOf('=')>0)
         .map(kp => {
             let [key,value] = kp.split("=")
-            if(key === 'debug') settings.debug = parseBoolean(value)
-            if(key === 'px') settings.px = parseInt(value)
-            if(key === 'py') settings.py = parseInt(value)
-            if(key === 'map') settings.map = value
+            if(key === 'debug') return settings.debug = parseBoolean(value)
+            if(key === 'px') return settings.px = parseInt(value)
+            if(key === 'py') return settings.py = parseInt(value)
+            if(key === 'map') return settings.map = value
             settings[key]= value
         })
 
