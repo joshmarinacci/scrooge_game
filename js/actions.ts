@@ -18,8 +18,8 @@ export class ActionManager {
         console.log(...args)
     }
 
-    perform_action(action, room:Room) {
-        this.log("performing action", action)
+    perform_action(action, room:Room, info) {
+        this.log("performing action", action, info)
         if (action.type === 'dialog') {
             this.perform_dialog(action,room)
         }
@@ -28,6 +28,12 @@ export class ActionManager {
             this.perform_script(action,room)
         }
         if (action.type === 'gotoroom') {
+            if(info.settings.lockable && info.settings.lockable.value === true) {
+                if(info.settings.locked && info.settings.locked.value === true) {
+                    this.log("can't go to the room because the door is locked")
+                    return
+                }
+            }
             this.log("going to a new room", action.gotoroom, action.gotoroom.map)
             this.state.keyboard.stop()
             let n = this.room_layer.indexOf(this.state.get_current_room())
@@ -45,7 +51,7 @@ export class ActionManager {
                 this.recenter_room_around_player()
                 //run startup scripts
                 room.lookup_startup_actions().forEach(cat => {
-                    this.perform_action(cat,room)
+                    this.perform_action(cat,room,info)
                 })
 
                 this.state.keyboard.start()
@@ -57,20 +63,20 @@ export class ActionManager {
             this.log("event happened", evt)
             if (evt.type === 'use-item') {
                 let actions = evt.room.lookup_action_for_item(evt.info.settings.id.value)
-                if(actions.length === 1) this.perform_action(actions[0],evt.room)
+                if(actions.length === 1) this.perform_action(actions[0],evt.room,evt.info)
                 //if one of the actions is a script, do it first
                 if(actions.length > 1) {
                     let scripts = actions.filter(act => act.type === 'script')
-                    if(scripts.length >= 1) this.perform_action(scripts[0],evt.room)
+                    if(scripts.length >= 1) this.perform_action(scripts[0],evt.room,evt.info)
                 }
             }
             if (evt.type === 'next-action') {
                 let action = evt.room.lookup_action(evt.actionid)
-                this.perform_action(action, evt.room)
+                this.perform_action(action, evt.room,evt.info)
             }
             if (evt.type === 'jump-dialog') {
                 let action = evt.room.lookup_action(evt.dialog)
-                this.perform_action(action,evt.room)
+                this.perform_action(action,evt.room,evt.info)
             }
         })
         this.state.events = []
@@ -139,6 +145,13 @@ export class ActionManager {
                             item.settings.visible = { name:'visible', value:true}
                         }
                         item.settings.visible.value = false
+                    },
+                    show() {
+                        log("showing item",item)
+                        if(!item.settings.hasOwnProperty('visible')) {
+                            item.settings.visible = { name:'visible', value:true}
+                        }
+                        item.settings.visible.value = true
                     },
                     unlock() {
                         log("unlocking item",item)

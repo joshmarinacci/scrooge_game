@@ -236,7 +236,7 @@
             "type": "script",
             "script": {
                 "trigger": "mapstart",
-                "code": "if(ctx.state.end === true) {\n   ctx.item('stpeter').hide();\n   ctx.item('stpeter2').show();\n} else {\n   ctx.item('stpeter2').hide();\n   ctx.item('stpeter').show();\n}\nif(ctx.state.talkedStPeter === true) {\n   ctx.item('exit').unlock();\n}"
+                "code": "if(ctx.getState('end') === true) {\n   ctx.item('stpeter').hide();\n   ctx.item('stpeter2').show();\n} else {\n   ctx.item('stpeter2').hide();\n   ctx.item('stpeter').show();\n}\nif(ctx.getState('talkedStPeter') === true) {\n   ctx.item('exit').unlock();\n}"
             },
             "visible": true,
             "next": null

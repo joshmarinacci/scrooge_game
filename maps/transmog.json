@@ -189,7 +189,7 @@
             "type": "script",
             "script": {
                 "trigger": "mapstart",
-                "code": "if(ctx.state.mogged) {\n  ctx.item('exit').unlock();\n}"
+                "code": "if(ctx.getState('mogged')) {\n  ctx.item('exit').unlock();\n}"
             },
             "visible": true,
             "next": null
