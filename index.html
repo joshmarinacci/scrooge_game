@@ -41,24 +41,51 @@
             if(info.settings.visible) return info.settings.visible.value
             return true
         }
-        function attempt_move(player,offset) {
-            STATE.test_tile = player.center.add(offset)
-            let infos = STATE.get_current_room().tile_info_at_pixel(surface, STATE.test_tile)
-            player.set_direction(offset)
+        function attempt_move(player,direction) {
+            player.set_direction(direction)
 
+            let tile_width = 16
+            let tile_height = 16
 
-            for (let info of infos) {
-                if (info.type === 'item' && is_item_visible(info)) {
-                    STATE.dispatch_event({type:'use-item',info:info, room:STATE.get_current_room()})
-                    return
+            let pos = player.center.multiplyScalar(tile_width).add(player.offset.add(direction))
+
+            //calculate possible collisions
+            STATE.test_tiles = []
+            STATE.collision_tiles = []
+
+            let ul = pos//player.center.multiplyScalar(tile_width).add(player.offset)
+            let inset = 3
+            STATE.test_tiles = [
+                new Point(Math.floor((ul.x+inset)/tile_width),
+                    Math.floor((ul.y+inset)/tile_height)), //ul
+                new Point(Math.floor((ul.x+tile_width-inset-inset)/tile_width),
+                    Math.floor((ul.y+inset)/tile_height)), //ur
+                new Point(Math.floor((ul.x+inset)/tile_width),
+                    Math.floor((ul.y+tile_height-inset-inset)/tile_height)), //ll
+                new Point(Math.floor((ul.x+tile_width-inset-inset)/tile_width),
+                    Math.floor((ul.y+tile_height-inset)/tile_height)), //lr
+            ]
+
+            let blocked = false
+            STATE.test_tiles.forEach(test_tile => {
+                let infos = STATE.get_current_room().tile_info_at_pixel(surface, test_tile)
+                for(let info of infos) {
+                    if (info.type === 'item' && is_item_visible(info)) {
+                        STATE.dispatch_event({type:'use-item',info:info, room:STATE.get_current_room()})
+                        blocked = true
+                        return
+                    }
+                    if(info.type === 'tile' && info.blocking) {
+                        blocked = true
+                    }
                 }
+            })
+            if(blocked) {
+                return
             }
-            for (let info of infos) {
-                if (info.type === 'tile' && info.blocking) return
-            }
-            player.offset_by(offset)
+            player.offset_by(direction)
             player.normalize()
-            STATE.move_scroll(offset)
+            STATE.move_scroll(direction)
         }
         function check_input() {
             let player = STATE.get_player()

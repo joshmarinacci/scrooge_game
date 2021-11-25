@@ -152,7 +152,9 @@ export class DebugOverlay {
         surf.ctx.fillText(`player center ${player.center.x} , ${player.center.y}`, 2, 20)
         surf.ctx.fillText(`player offset ${player.offset.x} , ${player.offset.y}`, 2, 30)
 
-        // draw location of player
+        // draw center location of player
+        surf.ctx.save()
+        surf.ctx.translate(0,0)
         surf.stroke_pixel_rect(
             player.center.x * surf.tile_width + scroll.x,
             player.center.y * surf.tile_height + scroll.y,
@@ -161,20 +163,35 @@ export class DebugOverlay {
             'magenta',
         )
 
-        surf.stroke_pixel_rect(0, 0,
-            surf.viewport.width_in_tiles * surf.tile_width,
-            surf.viewport.height_in_tiles * surf.tile_height,
-            'red'
-        )
-
         surf.stroke_pixel_rect(
-            this.state.test_tile.x * surf.tile_width + scroll.x,
-            this.state.test_tile.y * surf.tile_height + scroll.y,
+            player.center.x * surf.tile_width + scroll.x + player.offset.x,
+            player.center.y * surf.tile_height + scroll.y + player.offset.y,
             surf.tile_width,
             surf.tile_height,
-            'green'
+            'red',
         )
 
+        this.state.test_tiles.forEach((test_tile:Point) => {
+            surf.stroke_pixel_rect(
+                test_tile.x * surf.tile_width + scroll.x,
+                test_tile.y * surf.tile_height + scroll.y,
+                surf.tile_width,
+                surf.tile_height,
+                'green'
+            )
+        })
+
+        this.state.collision_tiles.forEach((test_tile:Point) => {
+            surf.stroke_pixel_rect(
+                test_tile.x * surf.tile_width + scroll.x + 2,
+                test_tile.y * surf.tile_height + scroll.y + 2,
+                surf.tile_width - 4,
+                surf.tile_height -4,
+                'blue'
+            )
+        })
+
+        surf.ctx.restore()
     }
 }
 

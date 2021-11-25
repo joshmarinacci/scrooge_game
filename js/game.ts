@@ -8,7 +8,8 @@ type Mode = "map" | "dialog"
 
 export class GameState {
     events: any[]
-    test_tile: Point
+    test_tiles: Point[]
+    collision_tiles:Point[]
     private scroll: Point
     private data: any;
     private room: any;
@@ -24,7 +25,8 @@ export class GameState {
         this.debug = false
         this.scroll = make_point(0, 0)
         this.events = []
-        this.test_tile = make_point(0, 0)
+        this.test_tiles = [make_point(0, 0)]
+        this.collision_tiles = []
         this.mode = "map"
         this.script_state = new Map()
     }
