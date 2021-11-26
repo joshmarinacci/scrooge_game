@@ -251,7 +251,7 @@ export class DialogOverlay extends SceneObject {
         let pos = new Point(0,0)
 
         surf.ctx.fillStyle = 'black'
-        surf.ctx.font = '25px sans-serif'
+        surf.ctx.font = '20px amiga4ever'
 
         let person = this.state.lookup_person(phrase.person)
         if(phrase.person === 'item') {
@@ -270,7 +270,7 @@ export class DialogOverlay extends SceneObject {
 
         let text_bounds = new Rect(r.right()+gap,r.top(),dialog_bounds.width()-r.width()-gap-gap-gap,dialog_bounds.height()-gap-gap)
         // surf.fill_rect(text_bounds,'yellow')
-        this.draw_wrapped_text(surf,phrase.text,text_bounds,30,'black')
+        this.draw_wrapped_text(surf,phrase.text,text_bounds,20,'black')
     }
 
     set_action(action) {
@@ -281,7 +281,7 @@ export class DialogOverlay extends SceneObject {
 
     private draw_wrapped_text(surf:Surface, text: string, bounds: Rect, fontsize:number, color: string) {
         surf.ctx.fillStyle = color
-        surf.ctx.font = `${fontsize}px sans-serif`
+        surf.ctx.font = `${fontsize}px amiga4ever`
         let words = text.split(" ")
         let lines = [];
         let currentLine = words[0]
