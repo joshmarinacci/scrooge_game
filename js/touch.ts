@@ -19,10 +19,10 @@ export class TouchInterface {
         this.surface = surface
         this.enabled = true
         this.buttons = new Map<string, TouchButton>()
-        this.buttons.set('up',new TouchButton(100, 200, 100, 50))
-        this.buttons.set('left', new TouchButton(0, 300, 100, 50))
-        this.buttons.set('right',  new TouchButton(200, 300, 100, 50))
-        this.buttons.set('down',  new TouchButton(100, 400, 100, 50))
+        this.buttons.set('up',new TouchButton(100, 150, 100, 100))
+        this.buttons.set('left', new TouchButton(0, 250, 100, 100))
+        this.buttons.set('right',  new TouchButton(200, 250, 100, 100))
+        this.buttons.set('down',  new TouchButton(100, 350, 100, 100))
     }
     private press(pt:Point) {
         this.buttons.forEach(bt => {
