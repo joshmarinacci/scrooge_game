@@ -25,6 +25,7 @@ export class TouchInterface {
         this.buttons.set('down',  new TouchButton(100, 350, 100, 100))
     }
     private press(pt:Point) {
+        this.anytouch_down = true
         this.buttons.forEach(bt => {
             if(bt.contains(pt)) bt.pressed = true
         })
