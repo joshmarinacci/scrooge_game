@@ -20,6 +20,7 @@
 <body>
     <script type="module">
         import { Keyboard } from "./js/keyboard.js"
+        import {TouchInterface, TouchOverlay} from "./js/touch.js"
         import { Player } from "./js/player.js"
         import {make_point, parse_url, Point} from "./js/util.js"
         import { AssetManager} from "./js/assets.js"
@@ -93,10 +94,10 @@
         }
         function check_input() {
             let player = STATE.get_player()
-            if (keyboard.is_pressed('ArrowUp'))    attempt_move(player,make_point(0,-1))
-            if (keyboard.is_pressed('ArrowDown'))  attempt_move(player,make_point(0,+1))
-            if (keyboard.is_pressed('ArrowLeft'))  attempt_move(player, make_point(-1,0))
-            if (keyboard.is_pressed('ArrowRight')) attempt_move(player,make_point(+1,0))
+            if (keyboard.is_pressed('ArrowUp') || STATE.touch.is_pressed('up'))      attempt_move(player,make_point(0,-1))
+            if (keyboard.is_pressed('ArrowDown') || STATE.touch.is_pressed('down'))  attempt_move(player,make_point(0,+1))
+            if (keyboard.is_pressed('ArrowLeft') || STATE.touch.is_pressed('left'))  attempt_move(player, make_point(-1,0))
+            if (keyboard.is_pressed('ArrowRight') || STATE.touch.is_pressed('right')) attempt_move(player,make_point(+1,0))
         }
 
 
@@ -142,12 +143,15 @@
             keyboard = new Keyboard()
             await keyboard.setup_input()
             STATE.keyboard = keyboard
+            STATE.touch = new TouchInterface(surface)
+            STATE.touch.setup_input()
             room_layer.push(STATE.get_current_room())
             layers.push(room_layer)
             layers.push(STATE.get_player())
             STATE.dialog = new DialogOverlay(STATE)
             STATE.dialog.visible = false
             layers.push(STATE.dialog)
+            layers.push(new TouchOverlay(STATE))
             layers.push(new DebugOverlay(STATE))
 
             actions = new ActionManager(STATE,room_layer,assets, surface)

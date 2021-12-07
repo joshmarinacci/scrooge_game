@@ -2,7 +2,8 @@ import {make_point, Point} from "./util.js";
 import {Player} from "./player.js";
 import {DialogOverlay} from "./drawing.js";
 import {Keyboard} from "./keyboard.js";
-import {AssetManager} from "./assets";
+import {AssetManager} from "./assets.js";
+import {TouchInterface} from "./touch.js";
 
 type Mode = "map" | "dialog"
 
@@ -16,6 +17,7 @@ export class GameState {
     private player: Player;
     public dialog: DialogOverlay
     public keyboard: Keyboard
+    public touch: TouchInterface
     public debug:boolean
     mode:Mode
     private assets: AssetManager;

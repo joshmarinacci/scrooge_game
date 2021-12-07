@@ -79,6 +79,14 @@ export class Rect {
     height() {
         return this.size.y
     }
+
+    contains(pt: Point) {
+        if(pt.x < this.pos.x) return false
+        if(pt.x > this.pos.x + this.size.x) return false
+        if(pt.y < this.pos.y) return false
+        if(pt.y > this.pos.y + this.size.y) return false
+        return true
+    }
 }
 
 

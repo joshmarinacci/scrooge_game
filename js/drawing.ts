@@ -37,7 +37,7 @@ class SceneObject {
 export class Surface {
     private data: any;
     private tilegroups: any;
-    private canvas: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
     tile_width: number;
     private tile_height: number;
@@ -208,13 +208,13 @@ export class DialogOverlay extends SceneObject {
     }
     check_input() {
         if(this.dfa === 0) {
-            if (this.state.keyboard.is_pressed('Space')) {
+            if (this.state.keyboard.is_pressed('Space') || this.state.touch.is_any_touchdown()) {
                 this.dfa = 1
                 return
             }
         }
         if(this.dfa === 1) {
-            if(!this.state.keyboard.is_pressed('Space')) {
+            if(!this.state.keyboard.is_pressed('Space') && !this.state.touch.is_any_touchdown()) {
                 this.dfa = 0
                 this.count++
                 if(this.count >= this.action.dialog.length) {
