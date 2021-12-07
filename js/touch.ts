@@ -31,18 +31,21 @@ export class TouchInterface {
     }
 
     setup_input() {
-        this.surface.canvas.addEventListener('mousedown', (e) => {
-            if(!this.enabled) return
-            this.anytouch_down = true
-            let rect = this.surface.canvas.getBoundingClientRect()
-            let pt = new Point(e.x - rect.x, e.y - rect.y)
-            this.press(pt)
-        })
-        this.surface.canvas.addEventListener('mouseup', (e) => {
-            if(!this.enabled) return
-            this.release()
-        })
+        // this.surface.canvas.addEventListener('mousedown', (e) => {
+        //     if(!this.enabled) return
+        //     this.anytouch_down = true
+        //     let rect = this.surface.canvas.getBoundingClientRect()
+        //     let pt = new Point(e.x - rect.x, e.y - rect.y)
+        //     this.press(pt)
+        // })
+        // this.surface.canvas.addEventListener('mouseup', (e) => {
+        //     if(!this.enabled) return
+        //     this.release()
+        // })
         this.surface.canvas.addEventListener('touchstart',(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            e.stopImmediatePropagation()
             if(e.touches.length < 1) return
             let touch:Touch = e.touches[0]
             let rect = this.surface.canvas.getBoundingClientRect()
@@ -50,6 +53,9 @@ export class TouchInterface {
             this.press(pt)
         })
         this.surface.canvas.addEventListener('touchend',(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            e.stopImmediatePropagation()
             this.release()
         })
     }
