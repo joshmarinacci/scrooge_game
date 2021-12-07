@@ -6,6 +6,10 @@
             font-family: "amiga4ever";
             src: url("./fonts/amiga4ever.ttf") format("truetype")
         }
+        html, body, canvas {
+            user-select: none;
+            touch-action: none;
+        }
         canvas {
             /*width: 700px;*/
             /*height: 600px;*/
@@ -13,8 +17,6 @@
             image-rendering: -webkit-crisp-edges;
             image-rendering: pixelated;
             border: 1px solid black;
-            user-select: none;
-            touch-action: none;
         }
     </style>
 </head>
