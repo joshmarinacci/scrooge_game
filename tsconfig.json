@@ -2,7 +2,8 @@
   "compilerOptions": {
     "allowJs": false,
     "target": "es6",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "outDir": "build/js"
   },
   "include": ["./js/**/*"]
 }
